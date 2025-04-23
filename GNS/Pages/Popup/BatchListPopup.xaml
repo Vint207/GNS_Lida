@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             xmlns:local="clr-namespace:GNS.Services.TemplateSelectors"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             x:Class="GNS.Pages.Popup.BatchListPopup"
+             Title="BatchListPage">
+
+    <ContentPage.Resources>
+        <Style TargetType="Label" x:Key="LabelColumn0Style">
+            <Setter Property="Grid.Column" Value="0"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontAttributes" Value="None"/>
+        </Style>
+
+        <Style TargetType="Label" x:Key="LabelColumn1Style">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Grid.ColumnSpan" Value="2"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+            <Setter Property="HorizontalTextAlignment" Value="End"/>
+            <Setter Property="TextColor" Value="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
+
+        <DataTemplate x:Key="EvenTemplate">
+            <VerticalStackLayout Padding="10" 
+                                 Spacing="15"
+                                 BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+                <Grid ColumnDefinitions="*,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                           Text="Дата:"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                           Text="{Binding BeginDate}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                           Text="Время:"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                           Text="{Binding BeginTime}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                           Text="Номер машины:"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                           Text="{Binding Car.RegistrationNumber}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <Grid ColumnDefinitions="auto,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                           Text="Считыватель:"
+                           LineBreakMode="NoWrap"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                           Text="{Binding ReaderNumber}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup>
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource Primary}}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource Secondary_5}}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </VerticalStackLayout>
+        </DataTemplate>
+
+        <DataTemplate x:Key="OddTemplate">
+            <VerticalStackLayout Padding="10" 
+                Spacing="15"
+                BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+                <Grid ColumnDefinitions="*,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                            Text="Дата:"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                            Text="{Binding BeginDate}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                            Text="Время:"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                             Text="{Binding BeginTime}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <Grid ColumnDefinitions="*,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                            Text="Номер машины:"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                            Text="{Binding Car.RegistrationNumber}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <Grid ColumnDefinitions="auto,*,*">
+                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                           Text="Считыватель:"
+                           LineBreakMode="NoWrap"/>
+
+                    <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                            Text="{Binding ReaderNumber}">
+                        <Label.Behaviors>
+                            <behaviors:LabelHeigthBehavior/>
+                        </Label.Behaviors>
+                    </Label>
+                </Grid>
+
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup>
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource PrimaryDark}}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource Secondary_5}}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </VerticalStackLayout>
+        </DataTemplate>
+
+        <local:CollectionViewDataTemplateSelector x:Key="AlternatingTemplateSelector"
+            EvenTemplate="{StaticResource EvenTemplate}"
+            OddTemplate="{StaticResource OddTemplate}" />
+    </ContentPage.Resources>
+
+
+
+    <ScrollView CascadeInputTransparent="True"               
+        Orientation="Vertical"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand"
+        BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+        <Grid>
+            <CollectionView x:Name="batch_collection" 
+                ItemsSource="{Binding BatchModelList}"
+                SelectionMode="Single"
+                BackgroundColor="Transparent"
+                SelectionChanged="Batch_collection_SelectionChanged"
+                ItemTemplate="{StaticResource AlternatingTemplateSelector}"/>
+        </Grid>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:GNS.Services.Converters"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             x:Class="GNS.Pages.Templates.BallonLoadingView">
+
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="Frame_Default" TargetType="Frame">
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="CornerRadius" Value="0"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Default={StaticResource PrimaryDark}}"/>
+                <Setter Property="BorderColor" Value="{AppThemeBinding Default={StaticResource PrimaryDark}}"/>
+                <Setter Property="CascadeInputTransparent" Value="True"/>
+            </Style>
+
+            <Style x:Key="Label_On_Frame" TargetType="Label">
+                <Setter Property="Margin" Value="5, 5, 0, 5"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="FontSize" Value="Subtitle"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Default={StaticResource Gray300}}"/>
+            </Style>
+
+            <Style TargetType="BoxView" x:Key="SeparatorStyle">
+                <Setter Property="HeightRequest" Value="0.2"/>
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource Gray500}}"/>
+                <Setter Property="IsVisible" Value="{Binding SeparatorVisibility}"/>
+            </Style>
+
+            <Style TargetType="BoxView" x:Key="fieldStyle">
+                <Setter Property="HeightRequest" Value="0.2"/>
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="Grid.ColumnSpan" Value="3"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="5,0"/>
+                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource Gray500}}"/>
+                <Setter Property="IsVisible" Value="{Binding SeparatorVisibility}"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelColumn0Style">
+                <Setter Property="Grid.Column" Value="0"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="None"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelColumn1Style">
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="Grid.ColumnSpan" Value="2"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ScrollView>
+        <Grid x:Name="Main_Grid"
+            RowDefinitions="*,*,*,*,*,*,*" Margin="5,5">
+            <Grid x:Name="car_trailer_reader_selection_block" 
+                RowDefinitions="auto,auto,auto,auto,auto,*"
+                RowSpacing="5" Grid.RowSpan="7">
+                <Grid x:Name="Car_Grid"  
+                    RowDefinitions="*,*" Grid.Row="0" Margin="0,0,0,-0.1">
+                    <Grid x:Name="carDataFrame" 
+                        RowDefinitions="*,*" Grid.RowSpan="2" IsVisible="False">
+                        <Label x:Name="carDataBlock_Label"  
+                            Grid.Row="0" Text="Машина"
+                            HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" 
+                            VerticalTextAlignment="Center" VerticalOptions="Center"
+                            Style="{StaticResource Label_On_Frame}"/>
+
+                        <VerticalStackLayout 
+                            Grid.Row="1" Padding="10" Spacing="15"
+                            BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDark}}">
+                            <Grid ColumnDefinitions="*,*,*">
+                                <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                                    Text="Номер:"/>
+
+                                <Label x:Name="carNumber" 
+                                    Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                                    Text="{Binding CarNumber}">
+                                    <Label.Behaviors>
+                                        <behaviors:LabelHeigthBehavior/>
+                                    </Label.Behaviors>
+                                </Label>
+                            </Grid>
+
+                            <BoxView HorizontalOptions="FillAndExpand" Margin="-5,0"
+                                Color="{AppThemeBinding Default={StaticResource Gray500}}" HeightRequest="0.1"/>
+
+                            <Grid ColumnDefinitions="*,*,*">
+                                <Label x:Name="carBrand" 
+                                    Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                                    Text="Тип:"/>
+
+                                <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                                    Text="{Binding CarType}">
+                                    <Label.Behaviors>
+                                        <behaviors:LabelHeigthBehavior/>
+                                    </Label.Behaviors>
+                                </Label>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <Button x:Name="button_SelectCar"
+                            Grid.Row="1" Grid.RowSpan="2"
+                            BackgroundColor="Transparent"
+                            Clicked="Button_SelectCar_Clicked">
+                            <Button.Shadow>
+                                <Shadow/>
+                            </Button.Shadow>
+
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+                    </Grid>
+
+                    <Button x:Name="button_SelectCarInit"                           
+                        Grid.RowSpan="2" MinimumHeightRequest="60"
+                        Text="Машина"            
+                        Clicked="Button_SelectCar_Clicked">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" 
+                                Binding="{Binding Source={x:Reference carDataFrame}, Path=IsVisible}" 
+                                Value="True">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+
+                        <Button.Behaviors>
+                            <behaviors:ButonDisableBehavior Duration="500"/>
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+
+                <Grid x:Name="Reader_Grid" 
+                      RowDefinitions="*,*" Grid.Row="2">
+                    <Grid x:Name="readerDataFrame" 
+                          Grid.RowSpan="2"
+                          RowDefinitions="*,*"
+                          IsVisible="False">
+                        <Label Grid.Row="0" 
+                               Text="Считыватель"
+                               HorizontalOptions="FillAndExpand"
+                               HorizontalTextAlignment="Center"
+                               Style="{StaticResource Label_On_Frame}"/>
+
+                        <VerticalStackLayout Grid.Row="1"
+                                             Padding="10" 
+                                             Spacing="15"
+                                             BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDark}}">
+                            <Grid ColumnDefinitions="*,*,*">
+                                <Label Style="{Binding Source={StaticResource LabelColumn0Style}}"  
+                                       Text="Номер:"/>
+
+                                <Label x:Name="readerType" 
+                                       Style="{Binding Source={StaticResource LabelColumn1Style}}"  
+                                       Text="{Binding ReaderType}">
+                                    <Label.Behaviors>
+                                        <behaviors:LabelHeigthBehavior/>
+                                    </Label.Behaviors>
+                                </Label>
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <Button x:Name="button_SelectReader"
+                                Grid.RowSpan="2"
+                                BackgroundColor="Transparent"
+                                Clicked="Button_SelectReader_Clicked">
+                            <Button.Shadow>
+                                <Shadow/>
+                            </Button.Shadow>
+
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+                    </Grid>
+
+                    <Button x:Name="button_SelectReaderInit"
+                            Grid.RowSpan="2"
+                            Text="Считыватель"
+                            MinimumHeightRequest="60"
+                            Clicked="Button_SelectReader_Clicked">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" 
+                                         Binding="{Binding Source={x:Reference readerDataFrame}, Path=IsVisible}" 
+                                         Value="True">
+                                <Setter Property="IsVisible" Value="False"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+
+                        <Button.Behaviors>
+                            <behaviors:ButonDisableBehavior Duration="500"/>
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+
+                <Label x:Name="TtnControlBlock_Label"
+                    Grid.Row="3" Padding="0,0,0,-2"
+                    Text="ТТН" 
+                    Style="{StaticResource Label_On_Frame}"/>
+
+                <Grid x:Name="Ttn_Grid"
+                    Grid.Row="4" RowDefinitions="60,auto,60" ColumnDefinitions="auto,*" 
+                    Padding="0,0,5,0" Margin="0,-5,0,0"
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}">
+                    <Label 
+                        Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0,4,0"
+                        HorizontalOptions="Fill"
+                        Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                        Text="Номер:"/>
+
+                    <Editor x:Name="Ttn_Editor"
+                        Grid.Row="0" Grid.Column="1" Keyboard="Default"
+                        VerticalTextAlignment="Center" HorizontalTextAlignment="End"
+                        TextColor="White" FontAttributes="Bold" Placeholder="ввести"
+                        PlaceholderColor="{AppThemeBinding Default={StaticResource Gray200}}"
+                        Text="{Binding TTN, Source={RelativeSource AncestorType={x:Type templates:BallonLoadingView}}}"/>
+
+                    <BoxView Grid.Row="1" Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand" Margin="5,0,0,0"
+                        Color="{AppThemeBinding Default={StaticResource Gray500}}" HeightRequest="0.1"/>
+
+                    <Label 
+                        Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0,4,0"
+                        HorizontalOptions="Fill"
+                        Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                        Text="Количество:"/>
+
+                    <Editor x:Name="AmountOfTtn_Editor"
+                        Grid.Row="2" Grid.Column="1" Keyboard="Numeric" 
+                        VerticalTextAlignment="Center" HorizontalTextAlignment="End"
+                        TextColor="White" FontAttributes="Bold" Placeholder="ввести"
+                        PlaceholderColor="{AppThemeBinding Default={StaticResource Gray200}}"
+                        Text="{Binding AmountOfTtn, Source={RelativeSource AncestorType={x:Type templates:BallonLoadingView}}}"/>
+                </Grid>
+            </Grid>
+
+            <Grid x:Name="stack_StopLoading"
+                  Grid.Row="0"
+                  Grid.RowSpan="7"
+                  RowDefinitions="*,*,*,*"
+                  RowSpacing="15"
+                  IsVisible="False"
+                  Background="{AppThemeBinding Default={StaticResource Primary}}">
+
+                <StackLayout Grid.Row="0"   
+                             Spacing="5"                                 
+                             BackgroundColor="Transparent">
+                    <Label Text="Баллоны без метки:" 
+                            Style="{Binding Source={StaticResource Label_On_Frame}}"/>
+
+                    <StackLayout Padding="10,0" 
+                                 BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDarkLighter}}">
+                        <Grid ColumnDefinitions="*,*">
+                            <Label x:Name="label5" 
+                                   Grid.Column="0"
+                                   Text="5л:"
+                                   TextColor="White"
+                                   FontSize="Subtitle"                            
+                                   VerticalOptions="Center"/>
+
+                            <Editor x:Name="unscannedBallonsEntry5"   
+                                    Grid.Column="1"
+                                    TextColor="White"
+                                    AutoSize="TextChanges"
+                                    FontSize="19"
+                                    Keyboard="Numeric"
+                                    HorizontalTextAlignment="End"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Center"/>
+                        </Grid>
+
+                        <BoxView Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                        <Grid ColumnDefinitions="*,*">
+                            <Label x:Name="label12" 
+                                   Grid.Column="0"
+                                   Text="12л:"
+                                   TextColor="White"
+                                   FontSize="Subtitle"                              
+                                   VerticalOptions="Center"/>
+
+                            <Editor x:Name="unscannedBallonsEntry12"   
+                                    Grid.Column="1"
+                                    TextColor="White"
+                                    AutoSize="TextChanges"
+                                    FontSize="19"
+                                    Keyboard="Numeric"
+                                    HorizontalTextAlignment="End"
+                                    HorizontalOptions="Fill"
+                                    VerticalOptions="Center"/>
+                        </Grid>
+
+                        <BoxView Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                        <Grid ColumnDefinitions="*,*">
+                            <Label x:Name="label27" 
+                                Grid.Column="0"
+                                Text="27л:"
+                                TextColor="White"
+                                FontSize="Subtitle"
+                                VerticalOptions="Center"/>
+
+                            <Editor x:Name="unscannedBallonsEntry27" 
+                                Grid.Column="1"
+                                TextColor="White"
+                                AutoSize="TextChanges"
+                                FontSize="19"
+                                Keyboard="Numeric"
+                                HorizontalTextAlignment="End"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center">
+                            </Editor>
+                        </Grid>
+
+                        <BoxView Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                        <Grid ColumnDefinitions="*,*">
+                            <Label x:Name="label50" 
+                                Grid.Column="0"
+                                Text="50л:"
+                                TextColor="White"
+                                FontSize="Subtitle"
+                                VerticalOptions="Center"/>
+
+                            <Editor x:Name="unscannedBallonsEntry50"  
+                                Grid.Column="1"
+                                TextColor="White"
+                                AutoSize="TextChanges"
+                                FontSize="19"
+                                Keyboard="Numeric"
+                                HorizontalTextAlignment="End"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center">
+                            </Editor>
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+
+                <Grid RowDefinitions="auto,auto"
+                      Grid.Row="1"
+                      RowSpacing="5">
+                    <Label Grid.Row="0"  
+                           Text="Баллонов отсканировано:" 
+                           Style="{Binding Source={StaticResource Label_On_Frame}}"/>
+
+                    <Label x:Name="ballons_amount_label" 
+                           Grid.Row="1"
+                           TextColor="White"
+                           FontSize="Title"  
+                           MinimumHeightRequest="40"
+                           BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDarkLighter}}"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand"/>
+                </Grid>
+
+                <Grid Grid.Row="3" 
+                      RowDefinitions="80,80"
+                      ColumnDefinitions="*,*" 
+                      RowSpacing="5"
+                      ColumnSpacing="5">
+                    <Button x:Name="button_delete_ballon_to_batch"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Удалить баллон"
+                            ImageSource="delete_button_icon.svg"
+                            HorizontalOptions="FillAndExpand"
+                            LineBreakMode="WordWrap"
+                            BackgroundColor="{AppThemeBinding Default={StaticResource Secondary_5}}"
+                            Clicked="Button_delete_ballon_to_batch_Clicked">
+                        <Button.Behaviors>
+                            <behaviors:ButonDisableBehavior Duration="500"/>
+                        </Button.Behaviors>
+                    </Button>
+
+                    <Button x:Name="button_add_ballon_to_batch"   
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="Добавить баллон"
+                            ImageSource="plus_button_icon.svg"
+                            HorizontalOptions="FillAndExpand"
+                            LineBreakMode="WordWrap"
+                            BackgroundColor="{AppThemeBinding Default={StaticResource Secondary_4}}"
+                            Clicked="Button_add_ballon_to_batch_Clicked">
+                        <Button.Behaviors>
+                            <behaviors:ButonDisableBehavior Duration="500"/>
+                        </Button.Behaviors>
+                    </Button>
+
+                    <Button x:Name="button_StopLoading"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Clicked="Button_StopLoading_Clicked">
+                        <Button.Behaviors>
+                            <behaviors:ButonDisableBehavior Duration="500"/>
+                        </Button.Behaviors>
+                    </Button>
+                </Grid>
+            </Grid>
+
+            <Button x:Name="button_StartLoading"
+                    Grid.Row="6"
+                    Margin="0"
+                    HeightRequest="80"
+                    IsVisible="False"
+                    Text="Начать приемку"
+                    Clicked="Button_StartLoading_Clicked">
+                <Button.Triggers>
+                    <MultiTrigger TargetType="Button">
+                        <MultiTrigger.Conditions>
+                            <BindingCondition Binding="{Binding Source={x:Reference carDataFrame}, Path=IsVisible}"
+                                              Value="True"/>
+
+                            <BindingCondition Binding="{Binding Source={x:Reference readerDataFrame}, Path=IsVisible}"
+                                              Value="True"/>
+                        </MultiTrigger.Conditions>
+
+                        <Setter Property="IsVisible" Value="True"/>
+                    </MultiTrigger>
+
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding Source={x:Reference stack_StopLoading}, Path=IsVisible}"
+                                 Value="True">
+                        <Setter Property="IsVisible" Value="False"/>
+                    </DataTrigger>
+                </Button.Triggers>
+
+                <Button.Behaviors>
+                    <behaviors:ButonDisableBehavior Duration="1000"/>
+                </Button.Behaviors>
+            </Button>
+        </Grid>
+    </ScrollView>
+</ContentView>

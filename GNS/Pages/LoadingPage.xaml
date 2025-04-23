@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:popup="clr-namespace:GNS.Pages.Popup"
+             x:Class="GNS.Pages.LoadingPage"
+             Title="Приемка">
+
+    <Grid RowDefinitions="*">
+        <templates:BallonLoadingView x:Name="ballonLoadingView" 
+            Grid.Row="0"
+            OnButtonSelectCarClickHandler="Button_SelectCar_Clicked"
+            OnButtonSelectReaderClickHandler="Button_SelectReader_Clicked"
+            OnButtonStartLoadingClickHandler="Button_StartLoading_Clicked"
+            OnButtonStopLoadingClickHandler="Button_StopLoading_Clicked"
+            OnButtonAddBallonToBatchClickHandler="Button_Add_Ballon_To_Batch_Clicked"
+            OnButtonDeleteBallonFromBatchClickHandler="Button_Delete_Ballon_From_Batch_Clicked"/>
+
+        <popup:FlyoutPanel x:Name="Flyout" Grid.RowSpan="2">
+            <popup:FlyoutPanel.FlyoutMainContent>
+                <templates:NfcScanView x:Name="nfcScanView"/>
+            </popup:FlyoutPanel.FlyoutMainContent>
+        </popup:FlyoutPanel>
+
+        <popup:FlyoutPanel x:Name="FlyoutSerialNumberInput" Grid.RowSpan="2">
+            <popup:FlyoutPanel.FlyoutMainContent>
+                <templates:SerialNumberSearchView x:Name="SerialNumberInputView"/>
+            </popup:FlyoutPanel.FlyoutMainContent>
+        </popup:FlyoutPanel>
+    </Grid>
+</ContentPage>

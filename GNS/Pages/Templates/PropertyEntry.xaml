@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GNS.Pages.Templates"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:toolKit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="GNS.Pages.Templates.PropertyEntry">
+
+    <VerticalStackLayout>
+        <Border 
+            x:Name="border"               
+            StrokeShape="RoundRectangle 0" StrokeThickness="1.5" 
+            MinimumHeightRequest="60"
+            Stroke="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+            BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDark}}"           
+            SizeChanged="Frame_SizeChanged">
+            <Grid 
+                x:Name="grid_property_box">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="grid_property_column_1" Width="*"/>
+                    <ColumnDefinition x:Name="grid_property_column_2" Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label 
+                    x:Name="label"  
+                    Grid.Column="0" Padding="10,5,0,5"
+                    VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand"
+                    BackgroundColor="Transparent" TextColor="White"/>
+
+                <Grid Grid.Column="1" Padding="0,0,5,0">
+                    <Label 
+                        Opacity="1" HorizontalTextAlignment="End" VerticalTextAlignment="Center"
+                        HorizontalOptions="FillAndExpand"
+                        TextColor="{AppThemeBinding Default={StaticResource Gray200}}"
+                        IsVisible="False" 
+                        Text="выбрать">
+                        <Label.Triggers>
+                            <DataTrigger 
+                                TargetType="Label"
+                                Binding="{Binding Source={x:Reference dateEntry}, Path=IsVisible}"
+                                Value="True">
+                                <Setter Property="IsVisible" Value="True"/>
+                            </DataTrigger>
+
+                            <DataTrigger 
+                                TargetType="Label"
+                                Binding="{Binding Source={x:Reference dateEntry}, Path=Opacity}"
+                                Value="1">
+                                <Setter Property="Opacity" Value="0"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+
+                    <DatePicker 
+                        x:Name="dateEntry" 
+                        Opacity="1" TextColor="White"
+                        HorizontalOptions="End" VerticalOptions="Center" 
+                        IsVisible="False"
+                        MinimumDate="2000.01.01" 
+                        Date="{Binding Date}"
+                        Focused="DateEntry_Focused"
+                        DateSelected="DateEntry_DateSelected"/>
+                </Grid>
+
+                <StackLayout 
+                    Grid.Column="1" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+                    <Editor 
+                        x:Name="textEntry"
+                        TextColor="White" IsVisible="False"
+                        VerticalOptions="Center" HorizontalTextAlignment="End"
+                        AutoSize="TextChanges" MaximumHeightRequest="200"
+                        IsSpellCheckEnabled="False"
+                        Placeholder="ввести"
+                        PlaceholderColor="{AppThemeBinding Default={StaticResource Gray200}}"
+                        Text="{Binding EditorText}"
+                        TextChanged="OnEditorTextChanged">
+                    </Editor>
+
+                    <Grid RowDefinitions="*">
+                        <Editor 
+                            x:Name="listText" 
+                            IsSpellCheckEnabled="False" TextColor="White" IsVisible="False"
+                            AutoSize="TextChanges" VerticalOptions="Center" HorizontalTextAlignment="End"
+                            Placeholder="выбрать"
+                            PlaceholderColor="{AppThemeBinding Default={StaticResource Gray200}}"
+                            Text="{Binding ListEditorText}"
+                            TextChanged="OnListEditorTextChanged"/>
+
+                        <ImageButton 
+                            x:Name="listButton"                              
+                            BackgroundColor="Transparent" MaximumHeightRequest="200" IsVisible="False"
+                            Clicked="ListButton_Clicked">
+                            <ImageButton.Behaviors>
+                                <behaviors:ImageButtonDisableBehavior Duration="500"/>
+                            </ImageButton.Behaviors>
+                        </ImageButton>
+                    </Grid>
+                </StackLayout>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

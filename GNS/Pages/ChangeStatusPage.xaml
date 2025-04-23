@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:popup="clr-namespace:GNS.Pages.Popup"
+             x:Class="GNS.Pages.ChangeStatusPage"
+             Title="Запись статуса">
+
+    <Grid Margin="5,0">
+            <templates:OperationView x:Name="operationView">
+                <templates:OperationView.MainContent>
+                    <templates:PropertyEntry x:Name="status"
+                                             PropertyTitle="Статус"
+                                             IsListField="True"
+                                             OnEntryClickHandler="OnStatusClickHandler" 
+                                             ListEditorText="{Binding Status}"/>
+                </templates:OperationView.MainContent>
+        </templates:OperationView>
+    </Grid >
+</ContentPage>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:pages="clr-namespace:GNS.Pages"
+             x:Class="GNS.Pages.CarouselSettingsPage"
+             Title="Настройки карусели">
+
+    <ScrollView>
+        <StackLayout Spacing="1" Padding="0,5">
+            <Grid 
+                RowDefinitions="60,60,60" ColumnDefinitions="*,auto" RowSpacing="2" Margin="0,0,0,0.5">
+                <Label 
+                    Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0" 
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                    Text="Только чтение:"/>
+
+                <CheckBox 
+                    x:Name="CheckBoxReadOnlyFromPost"  
+                    Grid.Row="0" Grid.Column="1" 
+                    Color="{AppThemeBinding Default={StaticResource Gray100}}"
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                    IsChecked="{Binding ReadOnlyFromPost, Source={RelativeSource AncestorType={x:Type pages:CarouselSettingsPage}}}"/>
+
+                <Label 
+                    Grid.Row="1" Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0"
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                    Text="Использовать коррекцию веса:"/>
+
+                <CheckBox 
+                    x:Name="CheckBoxUseWeightCorrection"
+                    Grid.Row="1" Grid.Column="1" 
+                    Color="{AppThemeBinding Default={StaticResource Gray100}}"
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                    IsChecked="{Binding UseWeightCorrection, Source={RelativeSource AncestorType={x:Type pages:CarouselSettingsPage}}}"/>
+
+                <Label 
+                    Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0"
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                    Text="Использовать общее значение коррекции веса:"/>
+
+                <CheckBox 
+                    x:Name="CheckBoxUseCommonValueOfWeightCorrection"
+                    Grid.Row="2" Grid.Column="1" 
+                    Color="{AppThemeBinding Default={StaticResource Gray100}}"
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                    IsChecked="{Binding UseCommonValueOfWeightCorrection, Source={RelativeSource AncestorType={x:Type pages:CarouselSettingsPage}}}"/>
+            </Grid>
+
+            <Grid RowDefinitions="60" ColumnDefinitions="auto,*" 
+                Padding="0,0,5,0" Margin="0,0"
+                Background="{AppThemeBinding Default={StaticResource PrimaryDark}}">
+                <Label 
+                    Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0,4,0"
+                    HorizontalOptions="Fill"
+                    Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                    Text="Значение корректировки веса:"/>
+
+                <Editor 
+                    x:Name="InputWeightCorrectionValue"
+                    Grid.Column="1" Keyboard="Numeric" 
+                    TextColor="White" HorizontalTextAlignment="End"
+                    Placeholder="ввести"
+                    PlaceholderColor="{AppThemeBinding Default={StaticResource Gray200}}"
+                    Text="{Binding WeightCorrectionValue, Source={RelativeSource AncestorType={x:Type pages:CarouselSettingsPage}}}"/>
+            </Grid>
+
+            <CollectionView ItemsSource="{Binding PostCorrectors, Source={RelativeSource AncestorType={x:Type pages:CarouselSettingsPage}}}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid RowDefinitions="60" ColumnDefinitions="auto,auto,10,*" 
+                            Padding="0,0,5,0" Margin="0,1"
+                            Background="{AppThemeBinding Default={StaticResource PrimaryDark}}">
+                            <Label 
+                                Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0,4,0"
+                                HorizontalOptions="Fill"
+                                Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                                Text="Корректор поста"/>
+
+                            <Label 
+                                Grid.Column="1" VerticalTextAlignment="Center" Padding="0,0"
+                                Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"                                
+                                Text="{Binding Index}"/>
+
+                            <Label 
+                                Grid.Column="2" VerticalTextAlignment="Center" Padding="0,0"
+                                Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"                                
+                                Text=":"/>
+
+                            <Editor 
+                                Grid.Column="3" Keyboard="Numeric" 
+                                TextColor="White" HorizontalTextAlignment="End"
+                                Placeholder="ввести"
+                                PlaceholderColor="{AppThemeBinding Default={StaticResource Gray200}}"
+                                Text="{Binding Value}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button 
+                x:Name="ButtonSaveCarouselSettings"
+                Margin="0,2,0,0" HorizontalOptions="FillAndExpand" HeightRequest="60"
+                Text="Сохранить"
+                Clicked="ButtonSaveCarouselSettings_Clicked"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

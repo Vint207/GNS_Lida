@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             x:Class="GNS.Pages.UnloadingSelectorPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="Frame_Default" TargetType="Frame">
+                <Setter Property="Padding" Value="10,15"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark={StaticResource PrimaryDark}}"/>
+                <Setter Property="CascadeInputTransparent" Value="True"/>
+            </Style>
+            <Style x:Key="Label_On_Frame" TargetType="Label">
+                <Setter Property="Margin" Value="10, -16, 0, 0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"/>
+                <Setter Property="FontSize" Value="Subtitle"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView CascadeInputTransparent="True">
+        <Grid RowDefinitions="100,*,*,*,*,*,*" 
+              ColumnDefinitions="*,*" 
+              RowSpacing="5"
+              ColumnSpacing="5"
+              Margin="5">
+            <Button x:Name="button_select_active_unloading_batces"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    LineBreakMode="WordWrap" 
+                    Text="Активные отгрузки"
+                    Clicked="Button_select_active_unloading_batces_Clicked">
+                <Button.Behaviors>
+                    <behaviors:ButonDisableBehavior Duration="500"/>
+                </Button.Behaviors>
+            </Button>
+
+            <Button x:Name="buttonStartNewUnloading"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    LineBreakMode="WordWrap"   
+                    Text="Начать отгрузку"
+                    Clicked="ButtonStartNewUnloading_Clicked">
+                <Button.Behaviors>
+                    <behaviors:ButonDisableBehavior Duration="500"/>
+                </Button.Behaviors>
+            </Button>
+        </Grid>
+    </ScrollView>
+</ContentPage>

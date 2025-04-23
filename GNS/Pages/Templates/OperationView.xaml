@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:popup="clr-namespace:GNS.Pages.Popup"
+             x:Class="GNS.Pages.Templates.OperationView">
+
+
+    <Grid x:Name="MainStack" VerticalOptions="FillAndExpand">
+        <Grid 
+            x:Name="MainGrid"
+            RowDefinitions="*" Background="Transparent"           
+            VerticalOptions="StartAndExpand">
+            <ScrollView 
+                x:Name="scroll_box" Grid.Row="0" VerticalOptions="StartAndExpand">
+                <Grid 
+                    RowDefinitions="*,100,100" ColumnDefinitions="*" RowSpacing="5" ColumnSpacing="5">
+
+                    <Grid x:Name="mainContent" Grid.Row="0"/>
+
+                    <Grid x:Name="buttons_box"
+                          Grid.Row="1" ColumnDefinitions="*,*" RowSpacing="5" ColumnSpacing="5" >
+                        <Button 
+                            x:Name="nfcBtn"
+                            Grid.Column="0" Padding="12,0" LineBreakMode="WordWrap"
+                            Text="Записать по метке"                             
+                            ImageSource="scanner_button_icon.svg"
+                            Clicked="NfcBtn_Clicked">
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+
+                        <Button 
+                            x:Name="ButtonSerialNumberSearch" 
+                            Grid.Column="1" Padding="12,0"
+                            BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryButton}}"
+                            Text="Записать по номеру"   
+                            ImageSource="number_icon.svg"                        
+                            Clicked="ButtonSerialNumberSearch_Clicked">
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+                    </Grid>
+
+                    <Grid x:Name="subMainContent" Grid.Row="2"/>
+                </Grid>
+            </ScrollView>
+        </Grid>
+
+        <popup:FlyoutPanel 
+            x:Name="Flyout" 
+            IsOpened="{Binding NfcFlyoutIsOpened, Source={RelativeSource AncestorType={x:Type templates:OperationView}}}">
+            <popup:FlyoutPanel.FlyoutMainContent>
+                <templates:NfcScanView x:Name="nfcScanView"/>
+            </popup:FlyoutPanel.FlyoutMainContent>
+        </popup:FlyoutPanel>
+
+        <popup:FlyoutPanel 
+            x:Name="FlyoutSerialNumberInput" 
+            IsOpened="{Binding SerialNumberFlyoutIsOpened, Source={RelativeSource AncestorType={x:Type templates:OperationView}}}">
+            <popup:FlyoutPanel.FlyoutMainContent>
+                <templates:SerialNumberSearchView x:Name="SerialNumberInputView"/>
+            </popup:FlyoutPanel.FlyoutMainContent>
+        </popup:FlyoutPanel>
+    </Grid>
+</ContentView>

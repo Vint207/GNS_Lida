@@ -1,0 +1,179 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
+		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
+
+		<!-- Note for MacCatalyst:
+		The default runtime is maccatalyst-x64, except in Release config, in which case the default is maccatalyst-x64;maccatalyst-arm64.
+		When specifying both architectures, use the plural <RuntimeIdentifiers> instead of the singular <RuntimeIdentifier>.
+		The Mac App Store will NOT accept apps with ONLY maccatalyst-arm64 indicated;
+		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
+		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>GNS</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- Display name -->
+		<ApplicationTitle>GNS</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.companyname.gns</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">11.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+
+		<EmbeddedResource Include="Resources\Images\scan.gif" />
+		<EmbeddedResource Include="Resources\Images\scan_color.gif" />
+		
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\logo_dark.svg" />
+		<MauiSplashScreen Include="Platforms\Android\Resources\drawable\logo_dark.svg" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\ballon_scan.png" />
+		<MauiImage Update="Resources\Images\scanner_button_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\plus_button_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\save_button_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\delete_button_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\search_button_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\login_button_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\logout_button_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\close_button_icon.svg" TintColor="#919191" />
+		<MauiImage Update="Resources\Images\up_button_icon.svg" TintColor="#E1E1E1" />
+		<MauiImage Update="Resources\Images\gear_icon.svg" TintColor="#FFAD40" />
+		<MauiImage Update="Resources\Images\number_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\loading_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\unloading_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\operations_icon.svg" TintColor="#FFFFFF" />
+		<MauiImage Update="Resources\Images\edit_icon.svg" TintColor="#FFFFFF" />
+		
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Platforms\Android\Resources\values\styles.xml" />
+	  <None Remove="Resources\Images\clear_button_icon.svg" />
+	  <None Remove="Resources\Images\close_button_icon.svg" />
+	  <None Remove="Resources\Images\edit_icon.svg" />
+	  <None Remove="Resources\Images\eye_button_icon.svg" />
+	  <None Remove="Resources\Images\gear_icon.svg" />
+	  <None Remove="Resources\Images\icnmenuclose.png" />
+	  <None Remove="Resources\Images\loading_icon.svg" />
+	  <None Remove="Resources\Images\login_button_icon.svg" />
+	  <None Remove="Resources\Images\logout_button_icon.svg" />
+	  <None Remove="Resources\Images\number_icon.svg" />
+	  <None Remove="Resources\Images\operations_icon.svg" />
+	  <None Remove="Resources\Images\search_button_icon.svg" />
+	  <None Remove="Resources\Images\unloading_icon.svg" />
+	  <None Remove="Resources\Images\up_button_icon.svg" />
+	  <None Remove="Resources\Images\user_logo_icon.svg" />
+	  <None Remove="Resources\Raw\scan.json" />
+	  <None Remove="Resources\Raw\scan_line.json" />
+	  <None Remove="Resources\Raw\signal_lottie.json" />
+	  <None Remove="Resources\Raw\waiting_lottie.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
+		<PackageReference Include="ErrorOr" Version="2.0.1" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="3.0.0-preview.7" />
+		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.0.0-preview.4.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\CarouselSettingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ChangeNfcPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\ControlWeighingPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\UnoadingSelectorPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SelectOperationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Popup\BallonsListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Popup\Expander.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Popup\FlyoutPanel.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\OperationView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\NfcScanView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\SerialNumberSearchView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="XamlHelpers\PopUpSelectionView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Services\Services.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Pages\ChangeNfcPage.xaml.cs">
+	    <DependentUpon>ChangeNfcPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\SelectOperationPage.xaml.cs">
+	    <DependentUpon>SelectOperationPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\Templates\OperationView.xaml.cs">
+	    <DependentUpon>OperationView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\UnoadingSelectorPage.xaml.cs">
+	    <DependentUpon>UnoadingSelectorPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\LoadingSelectorPage.xaml.cs">
+	    <DependentUpon>LoadingSelectorPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\Popup\StringOptionsPage.xaml.cs">
+	    <DependentUpon>StringOptionsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\ChangeStatusPage.xaml.cs">
+	    <DependentUpon>ChangeStatusPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionPagesHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
+</Project>

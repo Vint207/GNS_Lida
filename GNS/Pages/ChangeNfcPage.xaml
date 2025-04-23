@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             x:Class="GNS.Pages.ChangeNfcPage"
+             Title="Смена метки">
+
+    <Grid Margin="5,0">
+        <templates:OperationView x:Name="operationView">
+            <templates:OperationView.MainContent>
+                <templates:PropertyEntry 
+                    x:Name="nFC_Tag"                                     
+                    PropertyTitle="Метка"
+                    ListEditorText="{Binding NFCTag}"
+                    IsListField="True"
+                    OnEntryClickHandler="OnNFCTagClickHandler"/>
+            </templates:OperationView.MainContent>
+        </templates:OperationView>
+    </Grid>
+</ContentPage>

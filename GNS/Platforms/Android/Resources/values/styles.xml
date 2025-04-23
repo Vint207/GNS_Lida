@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+
+<resources>
+    <style name="MyDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:datePickerStyle">@style/MyDatePickerStyle</item> 
+        <item name="colorAccent">@color/colorAccent</item>  
+        <item name="android:windowBackground">@color/colorSecondaryDark</item> 
+	    <item name="android:textColorPrimary">@color/gray100</item>
+		<item name="android:buttonBarPositiveButtonStyle">@style/MyPositiveButton</item>
+	    <item name="android:buttonBarNegativeButtonStyle">@style/MyNegativeButton</item>
+    </style>
+
+    <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">spinner</item> 
+	    <item name="android:calendarViewShown">false</item> 
+		<item name="android:yearListSelectorColor">@color/gray300</item>
+	    <item name="android:calendarTextColor">@color/gray100</item> 
+        <item name="android:dayOfWeekBackground">@color/gray100</item> 
+	    <item name="android:textColor">@color/gray100</item>
+    </style>
+
+	<style name="MyPositiveButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">@android:color/transparent</item>  
+        <item name="android:textColor">@color/gray100</item> 
+    </style>
+		
+    <style name="MyNegativeButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">@android:color/transparent</item>  
+        <item name="android:textColor">@color/gray100</item> 
+    </style>
+</resources>

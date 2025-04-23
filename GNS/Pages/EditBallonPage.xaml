@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:GNS.Pages"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:popup="clr-namespace:GNS.Pages.Popup"
+             x:Class="GNS.Pages.EditBallonPage"    
+             Shell.NavBarHasShadow="False"
+             Title="Паспорт">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="BoxView" x:Key="SeparatorStyle">
+                <Setter Property="HeightRequest" Value="0.2"/>
+                <Setter Property="Grid.ColumnSpan" Value="2"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="10,0"/>
+                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource Gray600}}"/>
+                <Setter Property="IsVisible" Value="{Binding SeparatorVisibility}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+    <Grid x:Name="MainStack" VerticalOptions="FillAndExpand">
+        <Grid 
+            x:Name="MainGrid"
+            RowDefinitions="*" Background="Transparent" VerticalOptions="StartAndExpand">
+
+            <ScrollView x:Name="scroll_box" 
+                        Grid.Row="0" VerticalOptions="StartAndExpand">
+                <Grid 
+                    RowDefinitions="*,*" Margin="5,0">
+                    <popup:Expander 
+                        x:Name="ballonFormExpander">
+                        <popup:Expander.ExpanderContent>
+                            <Grid RowDefinitions="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*"
+                                  ColumnDefinitions="*,*"
+                                  RowSpacing="{Binding RowSpacing}"
+                                  BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+                                  SizeChanged="BallonFormView_SizeChanged">
+                                <templates:PropertyEntry 
+                                    x:Name="nFC_Tag"
+                                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                    IsListField="True"
+                                    PropertyTitle="Метка"
+                                    ListEditorText="{Binding NFCTag}"
+                                    OnEntryClickHandler="OnNFCTagClickHandler"/>
+
+                                <BoxView Grid.Row="2" Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry
+                                    x:Name="serial_Number"
+                                    Grid.Row="3"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    PropertyTitle="Серийный номер"
+                                    IsTextField="True"
+                                    EditorText="{Binding SerialNumber}"
+                                    TextEntryKeabord="Numeric"/>
+
+                                <BoxView Grid.Row="4" Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry 
+                                    x:Name="creation_Date"
+                                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                                    IsDateField="True"
+                                    Date="{Binding CreationDate}"
+                                    PropertyTitle="Дата создания"/>
+
+                                <BoxView Grid.Row="6" Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry 
+                                    x:Name="size"
+                                    Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2"
+                                    IsListField="True" TextEntryKeabord="Numeric"
+                                    PropertyTitle="Размер"
+                                    ListEditorText="{Binding Size}"
+                                    OnEntryClickHandler="OnSizeClickHandler"/>
+
+                                <BoxView Grid.Row="8" Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry 
+                                    x:Name="netto"
+                                    Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
+                                    IsTextField="True"
+                                    PropertyTitle="Масса пустого баллона, кг"
+                                    TextEntryKeabord="Numeric"
+                                    EditorText="{Binding Netto}"/>
+
+                                <BoxView Grid.Row="10" Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry 
+                                    x:Name="brutto"
+                                    Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
+                                    IsTextField="True" TextEntryKeabord="Numeric"
+                                    PropertyTitle="Масса полного баллона, кг"
+                                    EditorText="{Binding Brutto}"/>
+
+                                <BoxView Grid.Row="12" Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry 
+                                    x:Name="current_Examination_Date"
+                                    Grid.Row="13"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    IsDateField="True"
+                                    PropertyTitle="Дата текущей проверки"
+                                    Date="{Binding CurrentExaminationDate}"/>
+
+                                <BoxView Grid.Row="14"
+                                         Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry 
+                                    x:Name="next_Examination_Date"
+                                    Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="2"
+                                    IsDateField="True"
+                                    PropertyTitle="Дата следующей проверки"
+                                    Date="{Binding NextExaminationDate}"/>
+
+                                <BoxView Grid.Row="16"
+                                         Style="{Binding Source={StaticResource SeparatorStyle}}" />
+
+                                <templates:PropertyEntry 
+                                    x:Name="status"
+                                    Grid.Row="17" Grid.Column="0" Grid.ColumnSpan="2"
+                                    IsListField="True"
+                                    PropertyTitle="Статус"
+                                    ListEditorText="{Binding Status}"
+                                    OnEntryClickHandler="OnStatusClickHandler"/>
+
+                                <Border Grid.Row="19"
+                                        Grid.ColumnSpan="5"
+                                        StrokeThickness="0"                           
+                                        BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+                                    <ImageButton x:Name="ButtonCloseForm" 
+                                                 HeightRequest="30"
+                                                 Margin="5"
+                                                 Source="up_button_icon.svg"
+                                                 Clicked="ButtonCloseForm_Clicked"/>
+                                </Border>
+                            </Grid>
+                        </popup:Expander.ExpanderContent>
+                    </popup:Expander>
+
+                    <Grid 
+                        x:Name="buttons_box"
+                        Grid.Row="1" RowDefinitions="100,100" ColumnSpacing="5" RowSpacing="5"
+                        Margin="0,5" VerticalOptions="StartAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="buttonBoxColumn_1" Width="*"/>
+                            <ColumnDefinition x:Name="buttonBoxColumn_2" Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Button 
+                            x:Name="btnSave" 
+                            Grid.Row="0" Grid.Column="1"
+                            Text="Сохранить"
+                            ImageSource="save_button_icon.svg"                              
+                            Clicked="BtnSave_Clicked">
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+
+                        <Button 
+                            x:Name="ButtonCreateBallon" 
+                            Grid.Row="0" Grid.Column="0"
+                            Text="Создать"                               
+                            ImageSource="plus_button_icon.svg"
+                            Clicked="ButtonCreateBallon_Clicked">
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+
+                        <Button 
+                            x:Name="ButtonCreateBallonSpan" 
+                            Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand"
+                            Text="Создать"                               
+                            ImageSource="plus_button_icon.svg"
+                            Clicked="ButtonCreateBallon_Clicked">
+                        </Button>
+
+                        <Button 
+                            x:Name="nfcBtn"
+                            Grid.Row="2" Grid.Column="0"
+                            Text="Найти по метке"                              
+                            ImageSource="scanner_button_icon.svg"                            
+                            Clicked="NfcBtn_Clicked">
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+
+                        <Button 
+                            x:Name="ButtonSerialNumberSearch" 
+                            Grid.Row="2" Grid.Column="1"
+                            Text="Найти по номеру"   
+                            ImageSource="number_icon.svg"                               
+                            Clicked="ButtonSerialNumberSearch_Clicked">
+                            <Button.Behaviors>
+                                <behaviors:ButonDisableBehavior Duration="500"/>
+                            </Button.Behaviors>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </ScrollView>
+        </Grid>
+
+        <popup:FlyoutPanel x:Name="Flyout">
+            <popup:FlyoutPanel.FlyoutMainContent>
+                <templates:NfcScanView x:Name="nfcScanView"/>
+            </popup:FlyoutPanel.FlyoutMainContent>
+        </popup:FlyoutPanel>
+        
+        <popup:FlyoutPanel x:Name="FlyoutSerialNumberInput">
+            <popup:FlyoutPanel.FlyoutMainContent>
+                <templates:SerialNumberSearchView x:Name="SerialNumberInputView"/>
+            </popup:FlyoutPanel.FlyoutMainContent>
+        </popup:FlyoutPanel>
+    </Grid>
+
+</ContentPage>

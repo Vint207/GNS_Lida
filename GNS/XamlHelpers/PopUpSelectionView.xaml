@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GNS.Services.PopUpSelectionView">
+
+
+    <Grid RowDefinitions="50, *">
+        <Path Grid.Row="0"
+              Fill="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+              Stroke="{AppThemeBinding Default={StaticResource Primary}}"
+              Data="M0,20 q0,-10 10,-10 h160 q10,0 10,10 v30 h-180 Z"
+              Aspect="Fill"/>
+        <Label Grid.Row="0" 
+               Text="Выберите вариант"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="FillAndExpand"
+               HorizontalTextAlignment="Center"                      
+               TextColor="{AppThemeBinding Default={StaticResource Primary}}"/>
+        <Path Grid.Row="1"
+              Fill="{AppThemeBinding Default={StaticResource Primary}}"
+              Stroke="{AppThemeBinding Default={StaticResource PrimaryDark}}"
+              Data="m0,0 h130 v110 q0,10 -10,10 h-110 q-10,0 -10,-10 z"
+              Aspect="Fill"/>
+        <ScrollView Grid.Row="1" 
+                    CascadeInputTransparent="True"
+                    VerticalOptions="FillAndExpand">
+
+            <ListView x:Name="listViewOptions"
+                      VerticalScrollBarVisibility="Never"                         
+                      BackgroundColor="Transparent"
+                      SeparatorColor="Transparent">
+            </ListView>
+        </ScrollView>
+    </Grid>
+</ContentView>

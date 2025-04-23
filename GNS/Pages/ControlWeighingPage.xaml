@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:popup="clr-namespace:GNS.Pages.Popup"
+             x:Class="GNS.Pages.ControlWeighingPage"
+             Title="Взвешивание">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="BoxView" x:Key="SeparatorStyle">
+                <Setter Property="HeightRequest" Value="0.2"/>
+                <Setter Property="Grid.ColumnSpan" Value="2"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="10,0"/>
+                <Setter Property="Background" Value="{AppThemeBinding Default={StaticResource Gray600}}"/>
+                <Setter Property="IsVisible" Value="{Binding SeparatorVisibility}"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelColumn0Style">
+                <Setter Property="Grid.Column" Value="0"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="None"/>
+            </Style>
+
+            <Style TargetType="Label" x:Key="LabelColumn1Style">
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="Grid.ColumnSpan" Value="2"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+                <Setter Property="HorizontalTextAlignment" Value="End"/>
+                <Setter Property="TextColor" Value="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid Margin="5,0">
+        <templates:OperationView x:Name="operationView">
+            <templates:OperationView.MainContent>
+                <Grid RowDefinitions="*,*" BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDark}}">
+                    <templates:PropertyEntry x:Name="BruttoField" 
+                                             Grid.Row="0"
+                                             IsTextField="True"
+                                             PropertyTitle="Масса баллона на весах, кг"
+                                             TextEntryKeabord="Numeric"                                       
+                                             EditorText="{Binding Brutto}"/>
+
+                    <popup:Expander x:Name="PropertyExpander" Grid.Row="1">
+                        <popup:Expander.ExpanderContent>
+                            <VerticalStackLayout Padding="10" 
+                                                 Spacing="15"
+                                                 BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+                                <Grid ColumnDefinitions="*,*,*">
+                                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}" 
+                                           Text="Серийный номер:"/>
+
+                                    <Label x:Name="SerialNumberField"
+                                           Style="{Binding Source={StaticResource LabelColumn1Style}}"
+                                           Text="{Binding SerialNumberPassport}">
+                                        <Label.Behaviors>
+                                            <behaviors:LabelHeigthBehavior/>
+                                        </Label.Behaviors>
+                                    </Label>
+
+                                    <Grid.Behaviors>
+                                        <behaviors:ElementHeigthWhenUnvisibleBehavior />
+                                    </Grid.Behaviors>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,*,*">
+                                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}" 
+                                           Text="Масса, кг:"/>
+
+                                    <Label x:Name="BruttoFieldPassport"
+                                           Style="{Binding Source={StaticResource LabelColumn1Style}}"
+                                           Text="{Binding BruttoPassport}">
+                                        <Label.Behaviors>
+                                            <behaviors:LabelHeigthBehavior/>
+                                        </Label.Behaviors>
+                                    </Label>
+
+                                    <Grid.Behaviors>
+                                        <behaviors:ElementHeigthWhenUnvisibleBehavior />
+                                    </Grid.Behaviors>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,*,*">
+                                    <Label Style="{Binding Source={StaticResource LabelColumn0Style}}" 
+                                           Text="Статус:"/>
+
+                                    <Label x:Name="StatusFieldPassport"
+                                           Style="{Binding Source={StaticResource LabelColumn1Style}}"
+                                           Text="{Binding StatusPassport}">
+                                        <Label.Behaviors>
+                                            <behaviors:LabelHeigthBehavior/>
+                                        </Label.Behaviors>
+                                    </Label>
+                                
+                                    <Grid.Behaviors>
+                                        <behaviors:ElementHeigthWhenUnvisibleBehavior />
+                                    </Grid.Behaviors>
+                                </Grid>
+                            </VerticalStackLayout>
+                        </popup:Expander.ExpanderContent>
+                    </popup:Expander>
+                </Grid>
+            </templates:OperationView.MainContent>
+
+            <templates:OperationView.SubMainContent>
+                <Button x:Name="ButtonControlWeight" 
+                        Text="Контроль"
+                        IsEnabled="False"
+                        HeightRequest="100"
+                        Clicked="ButtonControlWeight_Clicked">
+                    <Button.Behaviors>
+                        <behaviors:ButonDisableBehavior Duration="500"/>
+                    </Button.Behaviors>
+                </Button>
+            </templates:OperationView.SubMainContent>
+        </templates:OperationView>
+    </Grid>
+</ContentPage>

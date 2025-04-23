@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CommunityToolkit.Maui">
+      <HintPath>..\..\..\..\..\..\Nuget\communitytoolkit.maui\9.1.0\lib\net8.0-android34.0\CommunityToolkit.Maui.dll</HintPath>
+    </Reference>
+    <Reference Include="ErrorOr">
+      <HintPath>..\..\..\..\..\..\Nuget\erroror\2.0.1\lib\net6.0\ErrorOr.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

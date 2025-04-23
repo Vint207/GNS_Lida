@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
+             x:Class="GNS.Pages.Templates.SerialNumberSearchView">
+
+    <Grid RowDefinitions="15,*,35,60,15">
+        <templates:PropertyEntry x:Name="SerialNumberInputView" 
+                                 Grid.Row="1"
+                                 PropertyTitle="Номер:"
+                                 IsTextField="True"                               
+                                 TextEntryKeabord="Numeric"/>
+
+        <Button x:Name="ButtonSerialNumberSearchFlyout" 
+                Grid.Row="3"
+                Text="Найти"   
+                ImageSource="search_button_icon.svg"
+                Clicked="ButtonSerialNumberSearchFlyout_Clicked">
+            <Button.Behaviors>
+                <behaviors:ButonDisableBehavior Duration="500"/>
+            </Button.Behaviors>
+        </Button>
+    </Grid>
+</ContentView>

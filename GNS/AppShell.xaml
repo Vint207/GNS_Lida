@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell x:Class="GNS.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:GNS"
+       xmlns:views="clr-namespace:GNS.Pages" 
+       xmlns:viewModels="clr-namespace:GNS.Models" 
+       xmlns:services="clr-namespace:Services;assembly=Services" 
+       Title="GNS">
+
+    <Shell.ToolbarItems>
+        <ToolbarItem 
+            x:Name="buttonLogout"
+            Priority="0"
+            Order="Primary"
+            Clicked="LogoutBtn_Clicked"/>
+    </Shell.ToolbarItems>
+
+    <TabBar >
+        <Tab Icon="unloading_icon.svg"  Title="Приемка">
+            <ShellContent 
+                ContentTemplate="{DataTemplate views:LoadingSelectorPage}"
+                Title="Приемка"
+                Route="LoadingSelectorPage"/>
+        </Tab>
+
+        <Tab Icon="loading_icon.svg" Title="Отгрузка">
+            <ShellContent 
+                ContentTemplate="{DataTemplate views:UnloadingSelectorPage}"     
+                Title="Отгрузка"
+                Route="UnloadingSelectorPage" />
+        </Tab>
+
+        <Tab Icon="edit_icon.svg"  Title="Паспорт">
+            <ShellContent 
+                Title="Паспорт баллона"
+                ContentTemplate="{DataTemplate views:EditBallonPage}"    
+                FlyoutItemIsVisible="False"
+                Route="EditBallonPage" />
+        </Tab>
+
+        <Tab Icon="operations_icon.svg"  Title="Операции">
+            <ShellContent 
+                Title="Операции"
+                ContentTemplate="{DataTemplate views:SelectOperationPage}"     
+                Route="SelectOperationPage" />
+        </Tab>
+    </TabBar>
+</Shell>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:GNS.Services.TemplateSelectors"
+             x:Class="GNS.Pages.Popup.StringOptionsPage"
+             Title="StringOptionsPage">
+
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="evenTemplate">
+            <StackLayout Padding="10"
+                         MinimumHeightRequest="60"
+                         VerticalOptions="FillAndExpand"
+                         BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+                <Label Text="{Binding .}"                   
+                       TextColor="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"             
+                       FontSize="18" 
+                       FontAttributes="Bold"
+                       VerticalTextAlignment="Center"
+                       VerticalOptions="FillAndExpand"/>
+                <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Default={StaticResource Primary}}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                            
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Default={StaticResource Secondary_5}}"/>
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+            </StackLayout>
+        </DataTemplate>
+
+        <DataTemplate x:Key="oddTemplate">
+            <StackLayout Padding="10" 
+                         MinimumHeightRequest="60"
+                         VerticalOptions="FillAndExpand"
+                         BackgroundColor="{AppThemeBinding Default={StaticResource PrimaryDark}}">
+                <Label Text="{Binding .}"                   
+                       TextColor="{AppThemeBinding Default={StaticResource PrimaryDarkText}}"             
+                       FontSize="18" 
+                       FontAttributes="Bold"
+                       VerticalTextAlignment="Center"
+                       VerticalOptions="FillAndExpand"/>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup>
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Default={StaticResource PrimaryDark}}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{AppThemeBinding Default={StaticResource Secondary_5}}"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </StackLayout>
+        </DataTemplate>
+
+        <local:CollectionViewDataTemplateSelector x:Key="AlternatingTemplateSelector"
+                                                  EvenTemplate="{StaticResource evenTemplate}"
+                                                  OddTemplate="{StaticResource oddTemplate}"/>
+    </ContentPage.Resources>
+    
+    
+    
+    <ScrollView CascadeInputTransparent="True"               
+                Orientation="Vertical"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+        
+        <CollectionView x:Name="options" 
+                        ItemsSource="{Binding Options}"
+                        SelectionMode="Single"
+                        BackgroundColor="Transparent"
+                        SelectionChanged="Options_SelectionChanged"
+                        ItemTemplate="{StaticResource AlternatingTemplateSelector}"/>
+    </ScrollView>
+</ContentPage>
