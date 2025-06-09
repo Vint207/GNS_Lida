@@ -22,11 +22,8 @@ namespace Services.Intrefaces
 
 		public class BallonVM
 		{
-			//[JsonPropertyName("id")]
-			//public int? Id { get; set; }
-
 			[JsonPropertyName("nfc_tag")]
-			public string? NFC_Tag { get; set; }
+			public string NFC_Tag { get; set; }
 
 			[JsonPropertyName("serial_number")]
 			public string? Serial_Number { get; set; }
@@ -58,11 +55,8 @@ namespace Services.Intrefaces
 			[JsonPropertyName("wall_thickness")]
 			public float? WallThickness { get; set; }
 
-			[JsonPropertyName("filling_status")]
-			public bool? FillingStatus { get; set; }
-
-			[JsonPropertyName("update_passport_required")]
-			public bool? UpdatePassportRequired { get; set; }
+			//[JsonPropertyName("filling_status")]
+			//public bool? FillingStatus { get; set; }			
 		}
 	}
 }

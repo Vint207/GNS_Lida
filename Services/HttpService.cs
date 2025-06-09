@@ -65,8 +65,7 @@ public class HttpService
 				return Error.Failure($"Сервер вернул ошибку:\n\"Нет ответа\"");
 
 
-			if (httpResponse.StatusCode == HttpStatusCode.OK || 
-				httpResponse.StatusCode == HttpStatusCode.Created)
+			if (httpResponse.StatusCode == HttpStatusCode.OK || httpResponse.StatusCode == HttpStatusCode.Created)
 			{
 				if (httpResponse.Content is null || typeof(TResponseContent) == typeof(Empty) || typeof(TResponseContent) == typeof(Success))
 					return default;

@@ -38,7 +38,7 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 			Brutto = value.Brutto;
 			CurrentExaminationDate = value.Current_Examination_Date?.ToDateTime(default);
 			NextExaminationDate = value.Next_Examination_Date?.ToDateTime(default);
-			Status = value.Status;
+			Status = value.Status;		
 		}
 	}
 	public string NFCTag
@@ -229,10 +229,7 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 		var udateBallonResult = await UpdateBallonAsync(_ballon?.NFC_Tag, Ballon);
 		if (udateBallonResult.IsError)
 		{
-			await Toast.Make(
-				$"Ошибка. {udateBallonResult.FirstError.Description}", 
-				ToastDuration.Long, 
-				16).Show();
+			await Toast.Make($"Ошибка. {udateBallonResult.FirstError.Description}", ToastDuration.Long, 16).Show();
 
 			return;
 		}
