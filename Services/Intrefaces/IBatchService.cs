@@ -36,13 +36,13 @@ public interface IBatchService
 	Task<ErrorOr<BatchVM>> GetLastActiveBatch(string batchType);
 
 	Task<ErrorOr<Success>> AddBallonToBatch(
-		int ballonId,
+		string nfc,
 		int batchId,
 		string batchType,
 		string message = "Баллон добавлен в партию");
 
 	Task<ErrorOr<Success>> DeleteBallonFromBatch(
-		int ballonId,
+		string nfc,
 		int batchId,
 		string batchType,
 		string message = "Баллон удален из партии");
@@ -51,7 +51,7 @@ public interface IBatchService
 
 	public enum ReaderType { Loading, Unloading }
 
-	public record struct AddOrDeleteBallonToBatchVm([property: JsonPropertyName("balloon_id")] int BallonId);
+	public record struct AddOrDeleteBallonToBatchVm([property: JsonPropertyName("nfc")] string nfc);
 
 	public record struct StartLoadingRequest(
 		[property: JsonPropertyName("truck")] int TruckId,

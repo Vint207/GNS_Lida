@@ -103,6 +103,7 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 		if (Title.Equals("Отгрузка"))
 		{
 			ballonLoadingView.ButtonStartLoading.Text = "Начать отгрузку";
+			ballonLoadingView.ButtonStopLoading.Text = "Закончить отгрузку";
 			_startLoadingURl = "balloons-unloading";
 			_startLoadingMessage = "Отгрузка начата";
 			_stopLoadingURl = "balloons-unloading";
@@ -112,11 +113,12 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 		else
 		{
 			ballonLoadingView.ButtonStartLoading.Text = "Начать приемку";
+			ballonLoadingView.ButtonStopLoading.Text = "Закончить приемку";
 			_startLoadingURl = "balloons-loading";
 			_startLoadingMessage = "Приемка начата";
 			_stopLoadingURl = "balloons-loading";
 			_stopLoadingMessage = "Приемка закончена";
-			_readerType = ReaderType.Loading;
+			_readerType = ReaderType.Loading;		
 		}
 	}
 
@@ -314,12 +316,10 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 				loadingPopupPage.BatchModel = _batchModel;
 				loadingPopupPage.BallonFormView.StackStopLoading.IsVisible = true;
 				loadingPopupPage.BallonFormView.CarTrailerReadderSelectionBlock.IsVisible = false;
-
 				string title = Title.Equals("Приемка") ? "Приемка" : "Отгрузка";
 				loadingPopupPage.ballonLoadingView.ButtonStopLoading.Text = title;
 				loadingPopupPage.StartReadingScannedBallonsAmount();
-
-				string message = Title.Equals("Приемка") ? "Приемка начата" : "Приемка начата";
+				string message = Title.Equals("Приемка") ? "Приемка начата" : "Отгрузка начата";
 				await Toast.Make(message, ToastDuration.Long, 16).Show();
 			};
 
@@ -410,28 +410,29 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 				return;
 			}
 
+			string message = string.Empty;
 			switch (_mode)
 			{
 				case Mode.AddBallon:
 					var addBallonResult = await _batchService
-						.AddBallonToBatch(ballon.Id.Value, _batchModel.Id.Value, Title);
+						.AddBallonToBatch(ballon.NFC_Tag, _batchModel.Id.Value, Title);
 
 					if (addBallonResult.IsError)
 					{
-						await Toast.Make($"Баллон не добавлен. {addBallonResult.FirstError.Description}",ToastDuration.Long,16).Show();
+						message = $"Баллон не добавлен. {addBallonResult.FirstError.Description}";
+						await Toast.Make(message, ToastDuration.Long,16).Show();
 					}
-					else
-					{
-						await Toast.Make($"Баллон добавлен",ToastDuration.Long,16).Show();
-					}
+					else await Toast.Make($"Баллон добавлен",ToastDuration.Long,16).Show();
+					
 					break;
 				case Mode.DeleteBallon:
 					var deleteBallonResult = await _batchService
-						.DeleteBallonFromBatch(ballon.Id.Value, _batchModel.Id.Value, Title);
+						.DeleteBallonFromBatch(ballon.NFC_Tag, _batchModel.Id.Value, Title);
 
 					if (deleteBallonResult.IsError)
 					{
-						await Toast.Make($"Баллон не удален. {deleteBallonResult.FirstError.Description}",ToastDuration.Long,16).Show();
+						message = $"Баллон не удален. {deleteBallonResult.FirstError.Description}";
+						await Toast.Make(message, ToastDuration.Long,16).Show();
 					}
 					else
 					{

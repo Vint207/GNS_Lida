@@ -26,8 +26,8 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 		set
 		{
 			_ballon = new()
-			{
-				Id = value.Id,
+			{		
+				NFC_Tag = value.NFC_Tag
 			};
 
 			NFCTag = value.NFC_Tag;
@@ -220,14 +220,13 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 			return;
 		}
 
-		if (_ballon is null || _ballon?.Id is null)
+		if (_ballon is null || string.IsNullOrWhiteSpace(_ballon?.NFC_Tag))
 		{
 			await Toast.Make("Ошибка", ToastDuration.Long, 16).Show();
 			return;
 		}
 
-		var udateBallonResult = await UpdateBallonAsync(_ballon?.Id.Value.ToString(), Ballon);
-
+		var udateBallonResult = await UpdateBallonAsync(_ballon?.NFC_Tag, Ballon);
 		if (udateBallonResult.IsError)
 		{
 			await Toast.Make(
@@ -257,15 +256,13 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 		else
 		{
 			var createBallonResult = await _ballonService.CreateBallon(_ballon);
-
 			if (!createBallonResult.IsError)
 			{
 				await Toast.Make("Баллон создан", ToastDuration.Short, 16).Show();
 			}
 			else
 			{
-				await Toast.Make(
-					$"{createBallonResult.FirstError.Description}", ToastDuration.Long, 16).Show(); 				
+				await Toast.Make($"{createBallonResult.FirstError.Description}", ToastDuration.Long, 16).Show(); 				
 			}
 		}
 	}
@@ -276,22 +273,19 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 		Flyout.ToggleFlyout();
 	}
 
-	private async Task GetBallonAsync(string id)
+	private async Task GetBallonAsync(string nfc)
 	{
-		var getBallonByIdResult = await _ballonService.GetBallonById(id);
-
+		var getBallonByIdResult = await _ballonService.GetBallonByNfc(nfc);
 		if (!getBallonByIdResult.IsError)
 			Ballon = getBallonByIdResult.Value;
 
-		await Toast.Make(
-			$"Не удалось получить баллон. {getBallonByIdResult.FirstError.Description}", 
-			ToastDuration.Long, 
-			16).Show();
+		string message = $"Не удалось получить баллон. {getBallonByIdResult.FirstError.Description}";
+		await Toast.Make(message, ToastDuration.Long, 16).Show();
 	}
 
-	private async Task<ErrorOr<Success>> UpdateBallonAsync(string id, BallonVM ballon)
+	private async Task<ErrorOr<Success>> UpdateBallonAsync(string nfc, BallonVM ballon)
 	{
-		return await _ballonService.UpdateBallonById(id, ballon);
+		return await _ballonService.UpdateBallonByNfc(nfc, ballon);
 	}
 
 	private async void OnSizeClickHandler(object sender, EventArgs e)
@@ -459,7 +453,6 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 	private async void ButtonSerialNumberSearchFlyout_Clicked()
 	{
 		string number = SerialNumberInputView.SerialNumber?.ToLowerInvariant();
-
 		if (string.IsNullOrWhiteSpace(number))
 		{ 
 			await Toast.Make("Некорректный серийный номер", ToastDuration.Long, 16).Show(); 
@@ -467,7 +460,6 @@ public partial class EditBallonPage : ContentPage, INotifyPropertyChanged
 		else
 		{
 			var popup = new BallonsListPage(number, _ballonService);
-
 			popup.ItemSelected += async (e, selectedItem) =>
 			{
 				Dispatcher.Dispatch(async () =>

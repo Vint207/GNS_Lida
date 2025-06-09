@@ -24,10 +24,10 @@ namespace Services
             return await ExecuteHttpRequestAsync<BallonVM, Success>(Method.Post, $"api/balloons/", ballon);
 		}
 
-        public async Task<ErrorOr<BallonVM>> GetBallonById(string id)
-        {
-			return await ExecuteHttpRequestAsync<Empty, BallonVM>(Method.Get, $"api/balloons/{id}/");
-		}
+		//public async Task<ErrorOr<BallonVM>> GetBallonById(string id)
+		//{
+		//	return await ExecuteHttpRequestAsync<Empty, BallonVM>(Method.Get, $"api/balloons/{id}/");
+		//}
 
 		public async Task<ErrorOr<BallonVM>> GetBallonByNfc(string nfc)
 		{
@@ -39,9 +39,9 @@ namespace Services
 			return await ExecuteHttpRequestAsync<Empty, IEnumerable<BallonVM>>(Method.Get, $"api/balloons/serial-number/{sn}/");	
 		}
 
-		public async Task<ErrorOr<Success>> UpdateBallonById(string id, BallonVM ballon)
+		public async Task<ErrorOr<Success>> UpdateBallonByNfc(string nfc, BallonVM ballon)
         {
-			return await ExecuteHttpRequestAsync<BallonVM, Success>(Method.Patch, $"api/balloons/{id}/", ballon);
+			return await ExecuteHttpRequestAsync<BallonVM, Success>(Method.Patch, $"api/balloons/{nfc}/", ballon);
         }
 
         public async Task<ErrorOr<IEnumerable<string>>> GetBallonStateOptions()

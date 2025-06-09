@@ -30,9 +30,9 @@ public partial class App : Application
 	{
 		base.OnStart();
 
-		//await SecureStorage.SetAsync("base_address", "http://10.0.2.2:8000");
+		await SecureStorage.SetAsync("base_address", "http://10.0.2.2:8000");
 		//await SecureStorage.SetAsync("base_address", "http://172.20.130.172:8003");
-		await SecureStorage.SetAsync("base_address", "http://192.168.66.248:8000");
+		//await SecureStorage.SetAsync("base_address", "http://192.168.66.248:8000");
 		//await SecureStorage.SetAsync("base_address", "http://172.20.130.136:8000");
 
 		LoginService.BaseAddress = await SecureStorage.GetAsync("base_address");

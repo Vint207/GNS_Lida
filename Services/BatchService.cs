@@ -84,7 +84,7 @@ public class BatchService : IBatchService
 	}
 
 	public async Task<ErrorOr<Success>> AddBallonToBatch(
-		int ballonId,
+		string nfc,
 		int batchId,
 		string batchType,
 		string message = "Баллон добавлен в партию")
@@ -92,11 +92,11 @@ public class BatchService : IBatchService
 		string url = batchType.Equals("Приемка") ? "balloons-loading" : "balloons-unloading";
 
 		return await ExecuteHttpRequestAsync<AddOrDeleteBallonToBatchVm, Success>(
-			Method.Patch, $"api/{url}/{batchId}/add-balloon/", new AddOrDeleteBallonToBatchVm(ballonId));
+			Method.Patch, $"api/{url}/{batchId}/add-balloon/", new AddOrDeleteBallonToBatchVm(nfc));
 	}
 
 	public async Task<ErrorOr<Success>> DeleteBallonFromBatch(
-		int ballonId,
+		string nfc,
 		int batchId,
 		string batchType,
 		string message = "Баллон удален из партии")
@@ -104,7 +104,7 @@ public class BatchService : IBatchService
 		string url = batchType.Equals("Приемка") ? "balloons-loading" : "balloons-unloading";
 
 		return await ExecuteHttpRequestAsync<AddOrDeleteBallonToBatchVm, Success>(
-			Method.Patch, $"api/{url}/{batchId}/remove-balloon/", new AddOrDeleteBallonToBatchVm(ballonId));
+			Method.Patch, $"api/{url}/{batchId}/remove-balloon/", new AddOrDeleteBallonToBatchVm(nfc));
 	}
 
 	public async Task<ErrorOr<IEnumerable<ActiveBatchVM>>> GetActiveBatchList(string batchListType)

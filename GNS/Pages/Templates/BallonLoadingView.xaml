@@ -397,13 +397,12 @@
                     </Button>
 
                     <Button x:Name="button_add_ballon_to_batch"   
-                            Grid.Row="0"
-                            Grid.Column="1"
+                            Grid.Row="0" Grid.Column="1"
                             Text="Добавить баллон"
                             ImageSource="plus_button_icon.svg"
                             HorizontalOptions="FillAndExpand"
                             LineBreakMode="WordWrap"
-                            BackgroundColor="{AppThemeBinding Default={StaticResource Secondary_4}}"
+                            BackgroundColor="{AppThemeBinding Default={StaticResource Secondary_Azure}}"
                             Clicked="Button_add_ballon_to_batch_Clicked">
                         <Button.Behaviors>
                             <behaviors:ButonDisableBehavior Duration="500"/>
@@ -411,8 +410,8 @@
                     </Button>
 
                     <Button x:Name="button_StopLoading"
-                            Grid.Row="1"
-                            Grid.ColumnSpan="2"
+                            Grid.Row="1" Grid.ColumnSpan="2"
+                            BackgroundColor="{AppThemeBinding Default={StaticResource Secondary_Red}}"
                             Clicked="Button_StopLoading_Clicked">
                         <Button.Behaviors>
                             <behaviors:ButonDisableBehavior Duration="500"/>

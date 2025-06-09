@@ -12,6 +12,21 @@ namespace GNS.Pages.Templates;
 
 public partial class OperationView : ContentView
 {
+
+	public OperationView()
+	{
+		InitializeComponent();
+
+		_ballon = new();
+		nfcScanView.OnScanSuccessHandler = OnNfcScanSuccessHandler;
+		nfcScanView.OnBackButtonClickHandler = OnBackButtonClickHandler;
+		Flyout.OnFlyoutOpenHandler = nfcScanView.OnAppearing;
+		Flyout.OnFlyoutCloseHandler = nfcScanView.OnDisappearing;
+		SerialNumberInputView.OnButtonSearchClickHandler = ButtonSerialNumberSearchFlyout_Clicked;
+	}
+	
+
+	#region Properties
 	public IList<IView> MainContent => mainContent.Children;
 	public IList<IView> SubMainContent => subMainContent.Children;
 
@@ -19,11 +34,11 @@ public partial class OperationView : ContentView
 	public IBallonService BallonService
 	{
 		get => _ballonService;
-		set 
+		set
 		{
 			_ballonService = value;
 		}
-	}
+	} 
 
 	private BallonVM? _ballon;
 	public BallonVM Ballon
@@ -76,28 +91,20 @@ public partial class OperationView : ContentView
 	public Action<BallonVM> WriteBallonActionHandler { get; set; }
 	public Action<BallonVM> OnBallonsListItemSelecedAlterHandler { get; set;}
 	public Action<string> OnNfcScanSuccessAlterHandler { get; set;}
+	#endregion
 
-	public OperationView()
-	{
-		InitializeComponent();
-
-		_ballon = new();
-		nfcScanView.OnScanSuccessHandler = OnNfcScanSuccessHandler;
-		nfcScanView.OnBackButtonClickHandler = OnBackButtonClickHandler;		
-		Flyout.OnFlyoutOpenHandler = nfcScanView.OnAppearing;
-		Flyout.OnFlyoutCloseHandler = nfcScanView.OnDisappearing;
-		SerialNumberInputView.OnButtonSearchClickHandler = ButtonSerialNumberSearchFlyout_Clicked;
-	}
 
 	private void NfcBtn_Clicked(object sender, EventArgs e)
 	{
 		Flyout.ToggleFlyout();		
 	}
 
-	private async Task<ErrorOr<Success>> UpdateBallonAsync(string id, BallonVM ballon)
+
+	private async Task<ErrorOr<Success>> UpdateBallonAsync(string nfc, BallonVM ballon)
 	{
-		return await _ballonService.UpdateBallonById(id, ballon);
+		return await _ballonService.UpdateBallonByNfc(nfc, ballon);
 	}
+
 
 	private async void OnNfcScanSuccessHandler(string nfc)
 	{
@@ -121,58 +128,72 @@ public partial class OperationView : ContentView
 		else { OnNfcScanSuccessAlterHandler?.Invoke(nfc); }
 	}
 
+
 	public void WriteBallon(BallonVM ballon)
 	{
-		Dispatcher.Dispatch(async () =>
+		try
 		{
-			if (ballon is not null)
+			Dispatcher.Dispatch(async () =>
 			{
-				WriteBallonActionHandler?.Invoke(ballon);
+				if(ballon is not null)
+				{
+					WriteBallonActionHandler?.Invoke(ballon);
+					var updateBallonResult = await UpdateBallonAsync(ballon?.NFC_Tag, ballon);
+					if(!updateBallonResult.IsError)
+						await Toast.Make("Свойство записано", ToastDuration.Short, 16).Show();
+					else
+						await Toast.Make($"{updateBallonResult.FirstError.Description}", ToastDuration.Short, 16).Show();
 
-				var updateBallonResult = await UpdateBallonAsync(ballon?.Id.Value.ToString(), ballon);
-
-				if (!updateBallonResult.IsError)
-					await Toast.Make("Свойство записано", ToastDuration.Short, 16).Show();
+					await Task.Delay(500);
+				}
 				else
-					await Toast.Make($"{updateBallonResult.FirstError.Description}", ToastDuration.Short, 16).Show();
+					await Toast.Make("Баллон не найден", ToastDuration.Short, 16).Show();
+			});
+		}
+		catch(Exception)
+		{
 
-				await Task.Delay(500);
-			}
-			else
-				await Toast.Make("Баллон не найден", ToastDuration.Short, 16).Show();
-		});
+			throw;
+		}
 
 	}
+
 
 	private void OnBackButtonClickHandler()
 	{
 		Flyout.ToggleFlyout();
 	}
 
+
 	public async Task CloseNfcFlyout()
 	{
 		await Flyout.CloseFlyout();
 	}
+
 
 	public async Task OpenNfcFlyout()
 	{
 		await Flyout.OpenFlyout();
 	}
 
+
 	public async Task OpenSerialNumberFlyout()
 	{
 		await FlyoutSerialNumberInput.OpenFlyout();
 	}
+
 
 	public async Task CloseSerialNumberFlyout()
 	{
 		await FlyoutSerialNumberInput.CloseFlyout();
 	}
 
+
 	private void ButtonSerialNumberSearch_Clicked(object sender, EventArgs e)
 	{
 		FlyoutSerialNumberInput.ToggleFlyout();
 	}
+
 
 	private async void ButtonSerialNumberSearchFlyout_Clicked()
 	{

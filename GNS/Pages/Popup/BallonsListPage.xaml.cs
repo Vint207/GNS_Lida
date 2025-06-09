@@ -40,16 +40,16 @@ public partial class BallonsListPage : ContentPage
 	private void LoadBallonsListAsync()
 	{
 		BallonslList ??= [];
-
 		Dispatcher.Dispatch(async () =>
 		{
 			BallonslList?.Clear();
-
 			var getBallonResult = await _ballonService.GetBallonBySerialNumber(_serialNumber);
-
 			if (getBallonResult.IsError)
 			{
 				await Toast.Make($"{getBallonResult.FirstError.Description}", ToastDuration.Long, 16).Show();
+				if(Navigation.ModalStack.Count > 0)
+					await Navigation.PopModalAsync();
+
 				return;
 			}
 

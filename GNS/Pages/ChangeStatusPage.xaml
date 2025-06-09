@@ -11,11 +11,11 @@
             <templates:OperationView x:Name="operationView">
                 <templates:OperationView.MainContent>
                     <templates:PropertyEntry x:Name="status"
-                                             PropertyTitle="Статус"
-                                             IsListField="True"
-                                             OnEntryClickHandler="OnStatusClickHandler" 
-                                             ListEditorText="{Binding Status}"/>
-                </templates:OperationView.MainContent>
+                        PropertyTitle="Статус"
+                        IsListField="True"
+                        OnEntryClickHandler="OnStatusClickHandler" 
+                        ListEditorText="{Binding Status}"/>
+            </templates:OperationView.MainContent>
         </templates:OperationView>
     </Grid >
 </ContentPage>

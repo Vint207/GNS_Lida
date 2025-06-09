@@ -14,16 +14,16 @@ namespace Services.Intrefaces
     public interface IBallonService
     {
 		Task<ErrorOr<Success>> CreateBallon(BallonVM ballon);
-		Task<ErrorOr<BallonVM>> GetBallonById(string id);
+		//Task<ErrorOr<BallonVM>> GetBallonById(string id);
 		Task<ErrorOr<BallonVM>> GetBallonByNfc(string nfc);
 		Task<ErrorOr<IEnumerable<BallonVM>>> GetBallonBySerialNumber(string sn);
-		Task<ErrorOr<Success>> UpdateBallonById(string id, BallonVM ballon);
+		Task<ErrorOr<Success>> UpdateBallonByNfc(string nfc, BallonVM ballon);
         Task<ErrorOr<IEnumerable<string>>> GetBallonStateOptions();
 
 		public class BallonVM
 		{
-			[JsonPropertyName("id")]
-			public int? Id { get; set; }
+			//[JsonPropertyName("id")]
+			//public int? Id { get; set; }
 
 			[JsonPropertyName("nfc_tag")]
 			public string? NFC_Tag { get; set; }

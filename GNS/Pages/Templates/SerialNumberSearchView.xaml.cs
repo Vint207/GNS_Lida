@@ -4,7 +4,17 @@ namespace GNS.Pages.Templates;
 
 public partial class SerialNumberSearchView : ContentView
 {
-	public Action OnButtonSearchClickHandler { get; set; }
+	public SerialNumberSearchView()
+	{
+		InitializeComponent();
+
+		SerialNumberInputView.TextEntry.SetBinding(
+			Editor.TextProperty, 
+			new Binding(nameof(SerialNumber), 
+			BindingMode.TwoWay, 
+			source: this));
+	}
+
 
 	private string _serialNumber;
 	public string SerialNumber
@@ -17,17 +27,11 @@ public partial class SerialNumberSearchView : ContentView
 		}
 	}
 
-	public SerialNumberSearchView()
-	{
-		InitializeComponent();
-
-		SerialNumberInputView.TextEntry.SetBinding(
-			Editor.TextProperty, 
-			new Binding(nameof(SerialNumber), BindingMode.TwoWay, source: this));
-	}
 
 	private async void ButtonSerialNumberSearchFlyout_Clicked(object sender, EventArgs e)
 	{
 		OnButtonSearchClickHandler?.Invoke();
 	}
+
+	public Action OnButtonSearchClickHandler { get; set; }
 }

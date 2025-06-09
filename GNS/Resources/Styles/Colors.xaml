@@ -20,8 +20,9 @@
     <Color x:Key="Secondary_1">#3AC944</Color>
     <Color x:Key="Secondary_2">#FFF9ED</Color>
     <Color x:Key="Secondary_3">#FFEB3B</Color>
-    <Color x:Key="Secondary_4">#00BEEA</Color>
+    <Color x:Key="Secondary_Azure">#2FA3BE</Color>
     <Color x:Key="Secondary_5">#FD6D03</Color>
+    <Color x:Key="Secondary_Red">#A60000</Color>
     <Color x:Key="Additional_1">#A66500</Color>
     <Color x:Key="Transparent">#00000000</Color>
     
