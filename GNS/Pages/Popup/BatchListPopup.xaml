@@ -62,7 +62,7 @@
                            Text="Номер машины:"/>
 
                     <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
-                           Text="{Binding Car.RegistrationNumber}">
+                           Text="{Binding Truck.Number}">
                         <Label.Behaviors>
                             <behaviors:LabelHeigthBehavior/>
                         </Label.Behaviors>
@@ -133,7 +133,7 @@
                             Text="Номер машины:"/>
 
                     <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
-                            Text="{Binding Car.RegistrationNumber}">
+                            Text="{Binding Truck.Number}">
                         <Label.Behaviors>
                             <behaviors:LabelHeigthBehavior/>
                         </Label.Behaviors>

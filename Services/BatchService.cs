@@ -107,10 +107,10 @@ public class BatchService : IBatchService
 			Method.Patch, $"api/{url}/{batchId}/remove-balloon/", new AddOrDeleteBallonToBatchVm(ballonId));
 	}
 
-	public async Task<ErrorOr<IEnumerable<BatchVM>>> GetActiveBatchList(string batchListType)
+	public async Task<ErrorOr<IEnumerable<ActiveBatchVM>>> GetActiveBatchList(string batchListType)
 	{
 		string url = batchListType.Equals("Приемка") ? "balloons-loading" : "balloons-unloading";
 
-		return await ExecuteHttpRequestAsync<Empty, IEnumerable<BatchVM>>(Method.Get, $"api/{url}/active/");
+		return await ExecuteHttpRequestAsync<Empty, IEnumerable<ActiveBatchVM>>(Method.Get, $"api/{url}/active/");
 	}
 }

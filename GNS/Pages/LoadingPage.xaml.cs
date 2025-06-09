@@ -354,7 +354,7 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 		}
 
 		var stopLoadingRequest = new StopLoadingRequest(
-			a5, a12, a27, a50, false, TTN ?? "", AmountOfTtn ?? 0);
+			a5, a12, a27, a50, false, TTN ?? _batchModel.TTN ?? "0", AmountOfTtn ?? _batchModel.AmountOfTTN ?? 0);
 
 		var stopLoadingResult = await _batchService.StopLoading(
 			stopLoadingRequest,

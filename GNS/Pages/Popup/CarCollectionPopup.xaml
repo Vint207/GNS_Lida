@@ -35,7 +35,7 @@
                            Text="Номер:"/>
 
                     <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
-                           Text="{Binding RegistrationNumber}">
+                           Text="{Binding Number}">
                         <Label.Behaviors>
                             <behaviors:LabelHeigthBehavior/>
                         </Label.Behaviors>
@@ -79,7 +79,7 @@
                            Text="Номер:"/>
 
                     <Label Style="{Binding Source={StaticResource LabelColumn1Style}}"  
-                           Text="{Binding RegistrationNumber}">
+                           Text="{Binding Number}">
                         <Label.Behaviors>
                             <behaviors:LabelHeigthBehavior/>
                         </Label.Behaviors>
@@ -122,15 +122,15 @@
     </ContentPage.Resources>
 
     <ScrollView CascadeInputTransparent="True"               
-                Orientation="Vertical"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand"
-                BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
+        Orientation="Vertical"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand"
+        BackgroundColor="{AppThemeBinding Default={StaticResource Primary}}">
         <CollectionView x:Name="carCollection" 
-                        ItemsSource="{Binding StationCars}"
-                        SelectionMode="Single"
-                        BackgroundColor="Transparent"
-                        SelectionChanged="CarCollection_SelectionChanged"
-                        ItemTemplate="{StaticResource AlternatingTemplateSelector}"/>
+            ItemsSource="{Binding StationCars}"
+            SelectionMode="Single"
+            BackgroundColor="Transparent"
+            SelectionChanged="CarCollection_SelectionChanged"
+            ItemTemplate="{StaticResource AlternatingTemplateSelector}"/>
     </ScrollView>
 </ContentPage>

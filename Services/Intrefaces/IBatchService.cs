@@ -47,7 +47,7 @@ public interface IBatchService
 		string batchType,
 		string message = "Баллон удален из партии");
 
-	Task<ErrorOr<IEnumerable<BatchVM>>> GetActiveBatchList(string batchListType);
+	Task<ErrorOr<IEnumerable<ActiveBatchVM>>> GetActiveBatchList(string batchListType);
 
 	public enum ReaderType { Loading, Unloading }
 
@@ -79,7 +79,7 @@ public interface IBatchService
 		[property: JsonPropertyName("amount_of_ttn")] int? AmountOfTtn);
 
 	public record struct BatchCarVM(
-		[property: JsonPropertyName("id")] int Id,
+		[property: JsonPropertyName("id")] int? Id,
 		[property: JsonPropertyName("car_brand")] string Brand,
 		[property: JsonPropertyName("registration_number")] string Number);
 
@@ -90,6 +90,25 @@ public interface IBatchService
 		[property: JsonPropertyName("end_date")] DateOnly? EndDate,
 		[property: JsonPropertyName("end_time")] TimeOnly? EndTime,
 		[property: JsonPropertyName("truck")] int? Truck,
+		[property: JsonPropertyName("trailer")] int? Trailer,
+		[property: JsonPropertyName("reader_number")] int? ReaderNumber,
+		[property: JsonPropertyName("amount_of_rfid")] int? AmountOfRfid,
+		[property: JsonPropertyName("amount_of_5_liters")] int? AmountOf5Liters,
+		[property: JsonPropertyName("amount_of_12_liters")] int? AmountOf12Liters,
+		[property: JsonPropertyName("amount_of_27_liters")] int? AmountOf27Liters,
+		[property: JsonPropertyName("amount_of_50_liters")] int? AmountOf50Liters,
+		[property: JsonPropertyName("gas_amount")] int? GasAmount,
+		[property: JsonPropertyName("is_active")] bool IsActive,
+		[property: JsonPropertyName("ttn")] string TTN,
+		[property: JsonPropertyName("amount_of_ttn")] int? AmountOfTTN);
+
+	public record struct ActiveBatchVM(
+		[property: JsonPropertyName("id")] int? Id,
+		[property: JsonPropertyName("begin_date")] DateOnly? BeginDate,
+		[property: JsonPropertyName("begin_time")] TimeOnly? BeginTime,
+		[property: JsonPropertyName("end_date")] DateOnly? EndDate,
+		[property: JsonPropertyName("end_time")] TimeOnly? EndTime,
+		[property: JsonPropertyName("truck")] BatchCarVM? Truck,
 		[property: JsonPropertyName("trailer")] int? Trailer,
 		[property: JsonPropertyName("reader_number")] int? ReaderNumber,
 		[property: JsonPropertyName("amount_of_rfid")] int? AmountOfRfid,

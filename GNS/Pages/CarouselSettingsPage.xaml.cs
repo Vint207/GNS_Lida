@@ -29,8 +29,18 @@ public partial class CarouselSettingsPage : ContentPage, INotifyPropertyChanged
 					Value = string.Empty
 				});
 			}
+
 			OnPropertyChanged(nameof(PostCorrectors));
+
+			//ImageCollection =
+			//[
+			//	new("pngwing_1.png"),
+			//	new("pngwing_2.png"),
+			//	new("pngwing_3.png"),
+			//	new("pngwing_5.png"),
+			//];
 		});
+
 
 		_ = Task.Run(async () =>
 		{
@@ -130,10 +140,42 @@ public partial class CarouselSettingsPage : ContentPage, INotifyPropertyChanged
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
+
+
+	//private ObservableCollection<GalleryModelVm> _imageCollection;
+	//public ObservableCollection<GalleryModelVm> ImageCollection
+	//{
+	//	get => _imageCollection;
+	//	set
+	//	{
+	//		_imageCollection = value;
+	//		OnPropertyChanged();
+	//	}
+	//}
+	//public class GalleryModelVm : INotifyPropertyChanged
+	//{
+	//	public GalleryModelVm(string imageString)
+	//	{
+	//		ImageName = imageString;
+	//	}
+
+	//	private string _imageName;
+	//	public string ImageName
+	//	{
+	//		get => _imageName; 
+	//		set { _imageName = value; }
+	//	}
+
+	//	public event PropertyChangedEventHandler? PropertyChanged;
+	//	protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+	//	{
+	//		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	//	}
+	//}
 	#endregion
 
 
-	#region MyRegion
+	#region On_Appearing
 	protected override async void OnAppearing()
 	{
 		try
@@ -247,5 +289,4 @@ public partial class CarouselSettingsPage : ContentPage, INotifyPropertyChanged
 			await Toast.Make($"{ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 16).Show();
 		}
 	}
-
 }

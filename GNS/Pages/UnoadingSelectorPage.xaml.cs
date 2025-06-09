@@ -80,46 +80,72 @@ public partial class UnloadingSelectorPage : ContentPage
 
 	private async void ShowBatchCollectionPopup(string batchType)
 	{
-		var popup = new BatchListPopup(batchType, _batchService);
-
-		popup.ItemSelected += async (e, selectedItem) =>
+		try
 		{
-			if (selectedItem is BatchListVM batch)
+			var popup = new BatchListPopup(batchType, _batchService);
+
+			popup.ItemSelected += async (e, selectedItem) =>
 			{
-				_batchBeginDate = batch.BeginDate ?? default;
-				_batchBeginTime = batch.BeginTime ?? default;
-				_batchId = batch.Id ?? default;
-				_batchSelectionSuccess = true;			
-			}
-
-			if (Navigation.ModalStack.Count > 0)
-				await Navigation.PopModalAsync(true);
-
-			if (_batchSelectionSuccess)
-			{				
-				var loadingBatchEditPopup = new LoadingPage(_batchService, _ballonService) { Title = batchType};
-
-				loadingBatchEditPopup.PopupOpenActionHandler += () =>
+				if (selectedItem is ActiveBatchVM batch)
 				{
-					loadingBatchEditPopup.BatchModel = new BatchVM { Id = _batchId };
-					loadingBatchEditPopup.BallonFormView.StackStopLoading.IsVisible = true;
-					loadingBatchEditPopup.BallonFormView.ButtonStopLoading.Text = batchType.Equals("Приемка") ? "Закончить приемку" : "Закончить отгрузку";
-					loadingBatchEditPopup.StartReadingScannedBallonsAmount();
-				};
+					_batchBeginDate = batch.BeginDate ?? default;
+					_batchBeginTime = batch.BeginTime ?? default;
+					_batchId = batch.Id ?? default;
+					_batchSelectionSuccess = true;
+				}
+				else return;
 
-				loadingBatchEditPopup.PopupCloseActionHandler += async () =>
+				if (Navigation.ModalStack.Count > 0)
+					await Navigation.PopModalAsync(true);
+
+				if (_batchSelectionSuccess)
 				{
-					if (Navigation.ModalStack.Count > 0)
-						await Shell.Current.Navigation.PopModalAsync(true);
-				};
+					var loadingBatchEditPopup = new LoadingPage(_batchService, _ballonService)
+					{
+						Title = batchType,
+						TTN = batch.TTN,
+						AmountOfTtn = batch.AmountOfTTN
+					};
 
-				await Shell.Current.Navigation.PushModalAsync(loadingBatchEditPopup, true);
-			}
+					loadingBatchEditPopup.PopupOpenActionHandler += () =>
+					{
+						loadingBatchEditPopup.BatchModel = new BatchVM
+						{
+							Id = batch.Id,
+							AmountOf5Liters = batch.AmountOf5Liters,
+							AmountOf12Liters = batch.AmountOf12Liters,
+							AmountOf27Liters = batch.AmountOf27Liters,
+							AmountOf50Liters = batch.AmountOf50Liters,
+							TTN = batch.TTN,
+							AmountOfTTN = batch.AmountOfTTN,
+							AmountOfRfid = batch.AmountOfRfid,
+							GasAmount = batch.GasAmount,
+						};
+						loadingBatchEditPopup.BallonFormView.StackStopLoading.IsVisible = true;
+						string message = batchType.Equals("Приемка") ? "Закончить приемку" : "Закончить отгрузку";
+						loadingBatchEditPopup.BallonFormView.ButtonStopLoading.Text = message;
+						loadingBatchEditPopup.StartReadingScannedBallonsAmount();
+					};
 
-			_batchSelectionSuccess = false;
-		};
+					loadingBatchEditPopup.PopupCloseActionHandler += async () =>
+					{
+						if (Navigation.ModalStack.Count > 0)
+							await Shell.Current.Navigation.PopModalAsync(true);
+					};
 
-		await Navigation.PushModalAsync(popup, true);
+					await Shell.Current.Navigation.PushModalAsync(loadingBatchEditPopup, true);
+				}
+
+				_batchSelectionSuccess = false;
+			};
+
+			await Navigation.PushModalAsync(popup, true);
+		}
+		catch (Exception ex)
+		{
+
+			throw;
+		}
 	}
 
 	protected override bool OnBackButtonPressed()

@@ -10,8 +10,8 @@ namespace GNS.Pages.Popup;
 
 public partial class BatchListPopup : ContentPage
 {
-	private ObservableCollection<BatchVM> _batchModelList;
-	public ObservableCollection<BatchVM> BatchModelList
+	private ObservableCollection<ActiveBatchVM> _batchModelList;
+	public ObservableCollection<ActiveBatchVM> BatchModelList
 	{
 		get => _batchModelList;
 		set
@@ -75,7 +75,7 @@ public partial class BatchListPopup : ContentPage
 				}
 			});
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
 
 			throw;

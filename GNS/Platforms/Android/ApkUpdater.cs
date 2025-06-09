@@ -44,14 +44,14 @@ public class ApkUpdater
 				return getLatestVersionResult.FirstError;
 
 			string latestVersionString = getLatestVersionResult.Value;
-			string currentVersionString = await SecureStorage.GetAsync("currentVersion") ?? "1.0.4";
+			string currentVersionString = await SecureStorage.GetAsync("currentVersion") ?? "1.0.0";
 
 			var latestVersion = new Version(latestVersionString);
 			var currentVersion = new Version(currentVersionString);
 
 			if (latestVersion > currentVersion)
 			{
-				//await SecureStorage.SetAsync("currentVersion", latestVersionString);
+				await SecureStorage.SetAsync("currentVersion", latestVersionString);
 				return true;
 			}
 

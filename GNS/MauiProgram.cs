@@ -10,6 +10,8 @@ using Services;
 using Services.Intrefaces;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using GNS.Models;
+using Syncfusion.Maui.Toolkit.Hosting;
+
 
 #if ANDROID
 using GNS.Platforms.Android;
@@ -28,6 +30,7 @@ public static class MauiProgram
 			.UseSkiaSharp()
 			//.UseBarcodeReader()
 			.UseMauiCommunityToolkit()
+			.ConfigureSyncfusionToolkit()
 			.ConfigureMauiHandlers(handlers =>
 			{
 #if ANDROID

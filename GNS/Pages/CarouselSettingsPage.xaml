@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:GNS.XamlHelpers.Behaviors"
              xmlns:templates="clr-namespace:GNS.Pages.Templates"
+             xmlns:syncfusion="http://schemas.syncfusion.com/maui/toolkit"
              xmlns:pages="clr-namespace:GNS.Pages"
              x:Class="GNS.Pages.CarouselSettingsPage"
              Title="Настройки карусели">
 
     <ScrollView>
         <StackLayout Spacing="1" Padding="0,5">
-            <Grid 
-                RowDefinitions="60,60,60" ColumnDefinitions="*,auto" RowSpacing="2" Margin="0,0,0,0.5">
+            <Grid RowDefinitions="60,60,60" ColumnDefinitions="*,auto" RowSpacing="2" Margin="0,0,0,0.5">
                 <Label 
                     Grid.Row="0" Grid.Column="0" VerticalTextAlignment="Center" Padding="10,0" 
                     Background="{AppThemeBinding Default={StaticResource PrimaryDark}}"

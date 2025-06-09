@@ -50,6 +50,8 @@ public partial class SelectOperationPage : ContentPage
 	private async void UpdateApp_Button_Clicked(object sender, EventArgs e)
 	{
 #if ANDROID
+	try 
+	{	        
 		var newVersionAvailableResult = await ApkUpdater.IsNewVersionAvailable();
 		if (newVersionAvailableResult.IsError)
 		{
@@ -60,9 +62,17 @@ public partial class SelectOperationPage : ContentPage
 		bool newVersionAvailable = newVersionAvailableResult.Value;
 
 		if (newVersionAvailable) 
+		{
+			await Toast.Make($"Загрузка начата", CommunityToolkit.Maui.Core.ToastDuration.Long, 16).Show();
 			await ApkUpdater.DownloadAndInstallApk();
+		}
 		else
 			await Toast.Make("Установлена последняя версия", CommunityToolkit.Maui.Core.ToastDuration.Long, 16).Show();
+	}
+	catch (global::System.Exception ex)
+	{
+		await Toast.Make($"{ex.Message}", CommunityToolkit.Maui.Core.ToastDuration.Long, 16).Show();
+	}
 #endif
 	}
 }
