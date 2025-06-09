@@ -203,6 +203,12 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 				await Navigation.PopModalAsync(true);
 		};
 
+		popup.ItemsLoadingFailed += async (e, selectedItem) =>
+		{
+			if(Navigation.ModalStack.Count > 0)
+				await Navigation.PopModalAsync(true);
+		};
+
 		_isPopupNavigation = true;
 		await Navigation.PushModalAsync(popup, true);
 	}
@@ -223,10 +229,7 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 
 		if (getReadersResult.IsError)
 		{
-			await Toast.Make(
-				$"{getReadersResult.FirstError.Description}",
-				ToastDuration.Long,
-				16).Show();
+			await Toast.Make($"{getReadersResult.FirstError.Description}",ToastDuration.Long,16).Show();
 
 			if (Navigation.ModalStack.Count > 0)
 				await Navigation.PopModalAsync(true);
@@ -235,7 +238,6 @@ public partial class LoadingPage : ContentPage, INotifyPropertyChanged
 		}
 
 		var options = getReadersResult.Value?.Select(x => x.ToString());
-
 		if (options is not null && options.Any())
 		{
 			popup.Options = options.ToObservableCollection();

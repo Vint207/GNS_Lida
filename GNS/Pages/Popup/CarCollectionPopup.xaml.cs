@@ -38,6 +38,7 @@ public partial class CarCollectionPopup : ContentPage
 		await LoadCarListAsync();
 	}
 
+	#region LoadCarListAsync
 	private async Task LoadCarListAsync()
 	{
 		StationCars ??= [];
@@ -47,32 +48,34 @@ public partial class CarCollectionPopup : ContentPage
 			StationCars?.Clear();
 
 			var getCarsResult = await _batchService.GetStationCars();
-
-			if (getCarsResult.IsError)
+			if(getCarsResult.IsError)
 			{
 				await Toast.Make($"{getCarsResult.FirstError.Description}", ToastDuration.Long, 16).Show();
+				ItemsLoadingFailed?.Invoke(this, EventArgs.Empty);
 				return;
 			}
 
 			var cars = getCarsResult.Value;
-
-			if (cars is null || !cars.Any())
+			if(cars is null || !cars.Any())
 			{
-				if (Navigation.ModalStack.Count > 0)
-					await Navigation.PopModalAsync();
-
+				ItemsLoadingFailed?.Invoke(this, EventArgs.Empty);
 				return;
 			}
 
-			foreach (var car in cars)
+			foreach(var car in cars)
 			{
 				StationCars?.Add(car);
 			}
 		});
 	}
 
+	public event EventHandler ItemsLoadingFailed;
+	#endregion
+
+	#region CarCollection_SelectionChanged
 	private async void CarCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
 	{
 		ItemSelected?.Invoke(e, e.CurrentSelection[0]);
-	}
+	} 
+	#endregion
 }
