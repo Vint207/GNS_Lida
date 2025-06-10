@@ -140,9 +140,10 @@ public partial class OperationView : ContentView
 					WriteBallonActionHandler?.Invoke(ballon);
 					var updateBallonResult = await UpdateBallonAsync(ballon?.NFC_Tag, ballon);
 					if(!updateBallonResult.IsError)
-						await Toast.Make("Свойство записано", ToastDuration.Short, 16).Show();
-					else
-						await Toast.Make($"{updateBallonResult.FirstError.Description}", ToastDuration.Short, 16).Show();
+					{
+						await Toast.Make("Свойство записано", ToastDuration.Short, 16).Show(); 
+					}
+					else await Toast.Make($"{updateBallonResult.FirstError.Description}", ToastDuration.Short, 16).Show();
 
 					await Task.Delay(500);
 				}
