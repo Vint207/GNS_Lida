@@ -46,21 +46,20 @@ public partial class BatchListPopup : ContentPage
 		try
 		{
 			BatchModelList ??= [];
-
 			Dispatcher.Dispatch(async () =>
 			{
 				BatchModelList?.Clear();
-
 				var getActiveBatchResult = await _batchService.GetActiveBatchList(_batchListType);
-
 				if (getActiveBatchResult.IsError)
 				{
 					await Toast.Make($"{getActiveBatchResult.FirstError.Description}", ToastDuration.Long, 16).Show();
+					if(Navigation.ModalStack.Count > 0)
+						await Navigation.PopModalAsync();
+
 					return;
 				}
 
 				var batches = getActiveBatchResult.Value;
-
 				if (batches is null || !batches.Any())
 				{
 					if (Navigation.ModalStack.Count > 0)
